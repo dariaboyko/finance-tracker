@@ -1,1 +1,1 @@
-# finance-tracker
+# React App Finance Tracker
