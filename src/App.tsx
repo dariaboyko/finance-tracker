@@ -1,13 +1,30 @@
-import './App.css';
+import { ConfigProvider } from 'antd';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import AuthRedirect from 'hooks/authRedirect';
 import Login from 'pages/login';
-import { Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="/login" element={<Login />}></Route>
-      </Routes>
+      <ConfigProvider theme={{ cssVar: true }}>
+        <Router>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/*"
+              element={
+                <AuthRedirect>
+                  {/* Wrap nested routes in a Routes component */}
+                  <Routes>
+                    <Route index element={<Navigate to="/home" />} />
+                    <Route path="/home" element={<div />} />
+                  </Routes>
+                </AuthRedirect>
+              }
+            />
+          </Routes>
+        </Router>
+      </ConfigProvider>
     </>
   );
 }
