@@ -108,7 +108,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSwitchToLogin }) => {
 
       <Form.Item>
         <Button type="link" onClick={onSwitchToLogin}>
-          Return to Login
+          Return to Sign In
         </Button>
         <Button type="primary" htmlType="submit" loading={loading}>
           Sign Up

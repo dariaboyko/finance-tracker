@@ -1,6 +1,6 @@
 import './login.scss';
 import { useState } from 'react';
-import { LogInForm } from './logInForm';
+import { SignInForm } from './signInForm';
 import { SignUpForm } from './signUpForm';
 
 const Login = () => {
@@ -14,9 +14,9 @@ const Login = () => {
     <section className="login--background">
       <div
         className={`login--wrapper ${showLoginForm ? 'login--wrapper__login' : 'login--wrapper__signup'}`}>
-        <h1>{showLoginForm ? 'Login' : 'Sign Up'}</h1>
+        <h1>{showLoginForm ? 'Sign In' : 'Sign Up'}</h1>
         {showLoginForm ? (
-          <LogInForm onSignUpClick={handleToggleForm} />
+          <SignInForm onSignUpClick={handleToggleForm} />
         ) : (
           <SignUpForm onSwitchToLogin={handleToggleForm} />
         )}

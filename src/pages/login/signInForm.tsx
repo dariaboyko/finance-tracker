@@ -5,7 +5,7 @@ import { LogInFormProps, LoginFormValues } from 'interfaces/forms';
 import { useState } from 'react';
 import { login } from './authService';
 
-export const LogInForm: React.FC<LogInFormProps> = ({ onSignUpClick }) => {
+export const SignInForm: React.FC<LogInFormProps> = ({ onSignUpClick }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const onFinish = async (values: LoginFormValues) => {
