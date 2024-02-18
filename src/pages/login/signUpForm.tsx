@@ -66,7 +66,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSwitchToLogin }) => {
       </Form.Item>
 
       <Form.Item name="dateOfBirth" rules={[{ validator: validateDateOfBirth }]}>
-        <DatePicker placeholder="Date of Birth" />
+        <DatePicker placeholder="Date of Birth" maxDate={dayjs()} />
       </Form.Item>
 
       <Form.Item
