@@ -4,9 +4,11 @@ import { MailTwoTone, LockTwoTone, EyeTwoTone, EyeInvisibleOutlined } from '@ant
 import { LogInFormProps, LoginFormValues } from 'interfaces/forms';
 import { useState } from 'react';
 import { login } from './authService';
+import { useNavigate } from 'react-router-dom';
 
 export const SignInForm: React.FC<LogInFormProps> = ({ onSignUpClick }) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const onFinish = async (values: LoginFormValues) => {
     setLoading(true);
@@ -15,6 +17,7 @@ export const SignInForm: React.FC<LogInFormProps> = ({ onSignUpClick }) => {
       login(values);
     } finally {
       setLoading(false);
+      navigate('/');
     }
   };
   return (
