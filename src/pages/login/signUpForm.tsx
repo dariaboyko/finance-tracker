@@ -7,13 +7,14 @@ import { signup } from './authService';
 import { SignUpRequest } from 'interfaces/login';
 import dayjs, { Dayjs } from 'dayjs';
 import { RuleObject } from 'antd/es/form';
+import { useNavigate } from 'react-router-dom';
 
 export const SignUpForm: React.FC<SignUpFormProps> = ({ onSwitchToLogin }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const onFinish = async (values: SignFormValues) => {
-    console.log(values);
     setLoading(true);
 
     try {
@@ -28,6 +29,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSwitchToLogin }) => {
       await signup(signupData);
     } finally {
       setLoading(false);
+      navigate('/');
     }
   };
 
