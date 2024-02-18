@@ -1,4 +1,4 @@
 export interface ErrorDTO {
-    errorType: string;
-    message: string;
+  errorType: string;
+  message: string;
 }
