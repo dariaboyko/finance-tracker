@@ -9,8 +9,7 @@
     }
 
     &--wrapper {
-        height: 250px;
-        width: 330px;
+        width: 350px;
         gap: 20px;
         display: flex;
         align-items: center;
@@ -19,5 +18,30 @@
         padding: 10px 20px;
         background-color: var(--white-color);
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+        form {
+            gap: 2px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .ant-form-item-control-input-content {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        &__login {
+            height: 240px;
+        }
+
+        &__signup {
+            height: 470px;
+
+            .ant-picker-outlined {
+                width: 100%;
+            }
+        }
     }
 }

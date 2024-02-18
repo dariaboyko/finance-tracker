@@ -14,7 +14,6 @@ function App() {
               path="/*"
               element={
                 <AuthRedirect>
-                  {/* Wrap nested routes in a Routes component */}
                   <Routes>
                     <Route index element={<Navigate to="/home" />} />
                     <Route path="/home" element={<div />} />

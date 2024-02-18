@@ -1,28 +1,25 @@
-import { MailTwoTone, LockTwoTone } from '@ant-design/icons';
-import { Button, Input } from 'antd';
 import './login.scss';
 import { useState } from 'react';
+import { LogInForm } from './logInForm';
+import { SignUpForm } from './signUpForm';
 
 const Login = () => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [showLoginForm, setShowLoginForm] = useState(true);
 
-  const enterLoading = () => {
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 6000);
+  const handleToggleForm = () => {
+    setShowLoginForm(!showLoginForm);
   };
 
   return (
     <section className="login--background">
-      <div className="login--wrapper">
-        <h1>Login</h1>
-        <Input placeholder="Email" type="email" prefix={<MailTwoTone />} />
-        <Input placeholder="Password" type="password" prefix={<LockTwoTone />} />
-        <Button type="primary" loading={loading} onClick={() => enterLoading()}>
-          Log In
-        </Button>
+      <div
+        className={`login--wrapper ${showLoginForm ? 'login--wrapper__login' : 'login--wrapper__signup'}`}>
+        <h1>{showLoginForm ? 'Login' : 'Sign Up'}</h1>
+        {showLoginForm ? (
+          <LogInForm onSignUpClick={handleToggleForm} />
+        ) : (
+          <SignUpForm onSwitchToLogin={handleToggleForm} />
+        )}
       </div>
     </section>
   );

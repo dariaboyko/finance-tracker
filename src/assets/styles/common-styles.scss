@@ -1,0 +1,31 @@
+.input {
+    &__error-message {
+        color: var(--ant-color-error);
+        font-size: 12px;
+    }
+}
+
+.ant-message-notice-content {
+    padding: 0 !important;
+}
+
+.ant-message-success {
+    padding: 9px 12px;
+    border-radius: 8px;
+    background: #edf7ed;
+    color: mix(#4caf50, black, 40%);
+}
+
+.ant-message-warning {
+    padding: 9px 12px;
+    border-radius: 8px;
+    background: #fff5e5;
+    color: mix(#ff9900, black, 40%);
+}
+
+.ant-message-error {
+    padding: 9px 12px;
+    border-radius: 8px;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.90) 0%, rgba(255, 255, 255, 0.90) 100%), #F44336;
+    color: var(--material-red-red-500-error-main);
+}
