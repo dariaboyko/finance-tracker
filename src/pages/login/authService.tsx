@@ -6,7 +6,7 @@ import { message } from 'antd';
 
 export const login = async (credentials: LoginRequest): Promise<void> => {
   try {
-    const response = await axios.post<LoginResponse>(`${BASE_API_URL}/v1/auth/login`, credentials);
+    const response = await axios.post<LoginResponse>(`${BASE_API_URL}/api/auth/login`, credentials);
 
     const { token, refreshToken } = response.data;
 
@@ -24,7 +24,7 @@ export const login = async (credentials: LoginRequest): Promise<void> => {
 export const signup = async (credentials: LoginRequest): Promise<void> => {
   try {
     const response = await axios.post<LoginResponse>(
-      `${BASE_API_URL}/v1/auth/register`,
+      `${BASE_API_URL}/api/auth/register`,
       credentials
     );
 
