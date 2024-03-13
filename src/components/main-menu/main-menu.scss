@@ -1,0 +1,122 @@
+.menu {
+    border-radius: 35px;
+    padding: 20px 25px;
+    width: 290px;
+    background-color: #F1F1F1;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 100%;
+
+    &--title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 24px;
+        font-weight: 500;
+        margin: 0 0 20px 0;
+    }
+
+    &--list {
+        display: flex;
+        gap: 15px;
+        font-size: 18px;
+        flex-direction: column;
+        user-select: none;
+
+        &--item {
+            display: flex;
+            gap: 8px;
+            cursor: pointer;
+            transition: color ease-in-out 0.2s;
+
+            .anticon {
+                font-size: 20px;
+            }
+
+            &__expandable {
+                display: flex;
+                justify-content: space-between;
+
+                .anticon {
+                    font-size: 20px;
+                }
+
+                .arrow {
+                    font-size: 14px;
+                }
+
+                .title {
+                    display: flex;
+                    gap: 8px;
+                    cursor: pointer;
+                }
+
+                .title.active {
+                    color: var(--ant-geekblue-5);
+                    font-weight: 500;
+                    cursor: default;
+                }
+
+                .title:not(.active):hover {
+                    color: var(--ant-geekblue-6);
+                }
+
+                .anticon {
+                    cursor: pointer;
+                }
+            }
+
+            &--submenu {
+                padding-left: 28px;
+                font-size: 16px;
+
+                li {
+                    transition: color ease-in-out 0.2s;
+                }
+
+                li.active {
+                    color: var(--ant-geekblue-5);
+                    cursor: default;
+                    font-weight: 500;
+                }
+
+                li:not(.active):hover {
+                    color: var(--ant-geekblue-6);
+                }
+            }
+        }
+
+        &--item.active {
+            color: var(--ant-geekblue-5);
+            cursor: default;
+            font-weight: 500;
+        }
+
+        &--item:not(.active):hover {
+            color: var(--ant-geekblue-6);
+        }
+    }
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+
+        &--info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .anticon {
+            font-size: 25px;
+            transform: rotate(180deg);
+            transition: color ease-in-out 0.2s;
+            cursor: pointer;
+        }
+
+        .anticon:hover {
+            color: var(--ant-geekblue-7);
+        }
+    }
+}

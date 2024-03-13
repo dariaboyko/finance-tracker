@@ -23,6 +23,7 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   font-family: var(--ant-font-family);
+  color: var(--main-text-color);
 }
 /*
   5. Improve media defaults
@@ -63,3 +64,13 @@ h6 {
 #__next {
   isolation: isolate;
 }
+
+ ul {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+ }
+
+ li {
+   margin: 0;
+ }

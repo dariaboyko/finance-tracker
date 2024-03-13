@@ -2,6 +2,7 @@ import { ConfigProvider } from 'antd';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import AuthRedirect from 'hooks/authRedirect';
 import Login from 'pages/login';
+import MainWrapper from 'components/main-wrapper';
 
 function App() {
   return (
@@ -14,10 +15,12 @@ function App() {
               path="/*"
               element={
                 <AuthRedirect>
-                  <Routes>
-                    <Route index element={<Navigate to="/home" />} />
-                    <Route path="/home" element={<div />} />
-                  </Routes>
+                  <MainWrapper>
+                    <Routes>
+                      <Route index element={<Navigate to="/dashboard" />} />
+                      <Route path="/dashboard" element={<div />} />
+                    </Routes>
+                  </MainWrapper>
                 </AuthRedirect>
               }
             />
