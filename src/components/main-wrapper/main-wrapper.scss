@@ -1,8 +1,7 @@
-.dashboard {
-    &--background {
-        background-color: var(--ant-geekblue-2);
-        height: 100vh;
-        overflow: hidden;
-        padding: 40px;
-    }
+.background {
+    background-color: var(--ant-geekblue-2);
+    height: 100vh;
+    overflow: hidden;
+    padding: 20px;
+    display: flex;
 }

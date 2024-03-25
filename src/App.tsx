@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import AuthRedirect from 'hooks/authRedirect';
 import Login from 'pages/login';
 import MainWrapper from 'components/main-wrapper';
+import DashBoard from 'pages/dashboard';
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
                   <MainWrapper>
                     <Routes>
                       <Route index element={<Navigate to="/dashboard" />} />
-                      <Route path="/dashboard" element={<div />} />
+                      <Route path="/dashboard" element={<DashBoard />} />
                     </Routes>
                   </MainWrapper>
                 </AuthRedirect>

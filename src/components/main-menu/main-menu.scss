@@ -2,7 +2,7 @@
     border-radius: 35px;
     padding: 20px 25px;
     width: 290px;
-    background-color: #F1F1F1;
+    background-color: var(--main-white-background);
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -12,7 +12,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-size: 24px;
+        font-size: var(--ant-font-size-heading-3);
         font-weight: 500;
         margin: 0 0 20px 0;
     }
@@ -20,7 +20,7 @@
     &--list {
         display: flex;
         gap: 15px;
-        font-size: 18px;
+        font-size: var(--ant-font-size-lg);
         flex-direction: column;
         user-select: none;
 
@@ -31,7 +31,7 @@
             transition: color ease-in-out 0.2s;
 
             .anticon {
-                font-size: 20px;
+                font-size: var(--ant-font-size-xl);
             }
 
             &__expandable {
@@ -39,11 +39,11 @@
                 justify-content: space-between;
 
                 .anticon {
-                    font-size: 20px;
+                    font-size: var(--ant-font-size-xl);
                 }
 
                 .arrow {
-                    font-size: 14px;
+                    font-size: var(--ant-font-size);
                 }
 
                 .title {
@@ -69,7 +69,7 @@
 
             &--submenu {
                 padding-left: 28px;
-                font-size: 16px;
+                font-size: var(--ant-font-size);
 
                 li {
                     transition: color ease-in-out 0.2s;

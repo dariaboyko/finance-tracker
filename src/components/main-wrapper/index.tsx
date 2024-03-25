@@ -8,9 +8,9 @@ interface MainWrapperProps {
 
 const MainWrapper: React.FC<MainWrapperProps> = (props) => {
   return (
-    <section className="dashboard--background">
-      {props.children}
+    <section className="background">
       <MainMenu />
+      {props.children}
     </section>
   );
 };

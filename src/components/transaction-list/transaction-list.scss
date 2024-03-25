@@ -1,0 +1,48 @@
+.transactions {
+    padding: 5px 10px;
+    max-height: 100%;
+    overflow: auto;
+
+    &--title {
+        font-size: var(--ant-font-size-xl);
+        font-weight: 500;
+        margin: 0 0 10px;
+    }
+
+    &--list {
+        display: flex;
+        gap: 15px;
+        flex-direction: column;
+
+        li {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &--name {
+            font-size: var(--ant-font-size-lg);
+        }
+
+        &--date {
+            font-size: var(--ant-font-size);
+            color: var(--ant-color-text-disabled);
+        }
+
+        &--amount {
+            font-size: var(--ant-font-size-xl);
+            font-weight: 600;
+        }
+    }
+
+    .positive {
+        .transactions--list--amount {
+            color: var(--ant-green-7);
+        }
+    }
+
+    .negative {
+        .transactions--list--amount {
+            color: var(--ant-red-7);
+        }
+    }
+}

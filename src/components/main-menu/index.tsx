@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './main-menu.scss';
 import {
   AppstoreOutlined,
-  MenuOutlined,
   BarChartOutlined,
   UserOutlined,
   SettingOutlined,
@@ -13,7 +12,7 @@ import {
 } from '@ant-design/icons';
 
 const MainMenu = () => {
-  const [showAnalyticsSubMenu, setShowAnalyticsSubMenu] = useState(false);
+  const [showAnalyticsSubMenu, setShowAnalyticsSubMenu] = useState(true);
   const [currentPath, setCurrentPath] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
@@ -36,7 +35,6 @@ const MainMenu = () => {
       <div>
         <div className="menu--title">
           <span>Tracker</span>
-          <MenuOutlined />
         </div>
         <ul className="menu--list">
           <li
