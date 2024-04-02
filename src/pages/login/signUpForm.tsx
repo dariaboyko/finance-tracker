@@ -1,10 +1,9 @@
 import React from 'react';
 import { Form, Input, Button, DatePicker } from 'antd';
 import { EyeTwoTone, EyeInvisibleOutlined } from '@ant-design/icons';
-import { SignFormValues, SignUpFormProps } from 'interfaces/forms';
+import { SignFormValues, SignUpFormProps, SignUpRequest } from 'models';
 import { useState } from 'react';
-import { signup } from './authService';
-import { SignUpRequest } from 'interfaces/login';
+import { signup } from '../../services/authService';
 import dayjs, { Dayjs } from 'dayjs';
 import { RuleObject } from 'antd/es/form';
 import { useNavigate } from 'react-router-dom';

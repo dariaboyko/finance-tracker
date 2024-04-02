@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import { Form, Input, Button } from 'antd';
 import { MailTwoTone, LockTwoTone, EyeTwoTone, EyeInvisibleOutlined } from '@ant-design/icons';
-import { LogInFormProps, LoginFormValues } from 'interfaces/forms';
+import { LogInFormProps, LoginFormValues } from 'models';
 import { useState } from 'react';
-import { login } from './authService';
+import { login } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
 
 export const SignInForm: React.FC<LogInFormProps> = ({ onSignUpClick }) => {
