@@ -29,11 +29,11 @@ const MockIncomeExpenseData = [
 
 const DashBoard = () => {
   const [transactions, setTransactions] = useState<TransactionListItem[]>([]);
-  const [transactionsLoading, setTransactionsLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function fetchData() {
-      setTransactionsLoading(true);
+      setLoading(true);
       try {
         const today = new Date();
         const toDate = today.toISOString().split('T')[0];
@@ -67,7 +67,7 @@ const DashBoard = () => {
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
-        setTransactionsLoading(false);
+        setLoading(false);
       }
     }
 
@@ -80,10 +80,16 @@ const DashBoard = () => {
       <div className="dashboard--main">
         <div className="dashboard--main--left">
           <div className="dashboard--main--div" style={{ maxHeight: '300px' }}>
-            <IncomeExpenseChart data={MockIncomeExpenseData} />
+            {loading ? (
+              <LoadingSpinner />
+            ) : transactions.length > 0 ? (
+              <IncomeExpenseChart data={MockIncomeExpenseData} />
+            ) : (
+              <IncomeExpenseChart data={MockIncomeExpenseData} />
+            )}
           </div>
           <div className="dashboard--main--div">
-            {transactionsLoading ? (
+            {loading ? (
               <LoadingSpinner />
             ) : transactions.length > 0 ? (
               <TransactionsList transactions={transactions} />
@@ -94,30 +100,62 @@ const DashBoard = () => {
         </div>
         <div className="dashboard--main--right">
           <div className="dashboard--main--div" style={{ maxHeight: '300px' }}>
-            <ExpenseCalendar
-              expenses={transactions.filter((transaction) => transaction.amount < 0)}
-              incomes={transactions.filter((transaction) => transaction.amount >= 0)}
-            />
+            {loading ? (
+              <LoadingSpinner />
+            ) : transactions.length > 0 ? (
+              <ExpenseCalendar
+                expenses={transactions.filter((transaction) => transaction.amount < 0)}
+                incomes={transactions.filter((transaction) => transaction.amount >= 0)}
+              />
+            ) : (
+              <ExpenseCalendar
+                expenses={transactions.filter((transaction) => transaction.amount < 0)}
+                incomes={transactions.filter((transaction) => transaction.amount >= 0)}
+              />
+            )}
           </div>
           <div className="dashboard--main--div">
-            <PieChart
-              data={transactions.reduce(
-                (acc, transaction) => {
-                  if (transaction.amount >= 0) {
-                    acc[0].value += transaction.amount;
-                  } else {
-                    acc[1].value -= transaction.amount;
-                  }
-                  return acc;
-                },
-                [
-                  { value: 0, name: 'Incomes' },
-                  { value: 0, name: 'Expenses' }
-                ]
-              )}
-              colors={colors}
-              style={{ width: '100%', height: '100%' }}
-            />
+            {loading ? (
+              <LoadingSpinner />
+            ) : transactions.length > 0 ? (
+              <PieChart
+                data={transactions.reduce(
+                  (acc, transaction) => {
+                    if (transaction.amount >= 0) {
+                      acc[0].value += transaction.amount;
+                    } else {
+                      acc[1].value -= transaction.amount;
+                    }
+                    return acc;
+                  },
+                  [
+                    { value: 0, name: 'Incomes' },
+                    { value: 0, name: 'Expenses' }
+                  ]
+                )}
+                colors={colors}
+                style={{ width: '100%', height: '100%' }}
+              />
+            ) : (
+              <PieChart
+                data={transactions.reduce(
+                  (acc, transaction) => {
+                    if (transaction.amount >= 0) {
+                      acc[0].value += transaction.amount;
+                    } else {
+                      acc[1].value -= transaction.amount;
+                    }
+                    return acc;
+                  },
+                  [
+                    { value: 0, name: 'Incomes' },
+                    { value: 0, name: 'Expenses' }
+                  ]
+                )}
+                colors={colors}
+                style={{ width: '100%', height: '100%' }}
+              />
+            )}
           </div>
           <div className="dashboard--main--div" style={{ maxHeight: '110px' }}>
             <TotalBalanceCard
