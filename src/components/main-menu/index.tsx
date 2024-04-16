@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './main-menu.scss';
 import {
-  AppstoreOutlined,
+  HomeOutlined,
   BarChartOutlined,
   UserOutlined,
   SettingOutlined,
@@ -38,10 +38,10 @@ const MainMenu = () => {
         </div>
         <ul className="menu--list">
           <li
-            className={`menu--list--item ${currentPath === '/dashboard' ? 'active' : ''}`}
-            onClick={() => handleNavigation('/dashboard')}>
-            <AppstoreOutlined />
-            <span>Dashboard</span>
+            className={`menu--list--item ${currentPath === '/home' ? 'active' : ''}`}
+            onClick={() => handleNavigation('/home')}>
+            <HomeOutlined />
+            <span>Home</span>
           </li>
           <li className="menu--list--item__expandable">
             <div

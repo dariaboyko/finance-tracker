@@ -1,5 +1,5 @@
 import IncomeExpenseChart from 'components/month-chart';
-import './dashboard.scss';
+import './analytics.scss';
 import TransactionsList from 'components/transaction-list';
 import ExpenseCalendar from 'components/expanse-calender';
 import PieChart from 'components/pie-chart';
@@ -27,7 +27,7 @@ const MockIncomeExpenseData = [
   { month: 'Dec', income: 7800, expense: 5500 }
 ];
 
-const DashBoard = () => {
+const AnalyticsPage = () => {
   const [transactions, setTransactions] = useState<TransactionListItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -75,11 +75,11 @@ const DashBoard = () => {
   }, []);
 
   return (
-    <section className="dashboard">
-      <header className="dashboard--title">Dashboard</header>
-      <div className="dashboard--main">
-        <div className="dashboard--main--left">
-          <div className="dashboard--main--div" style={{ maxHeight: '300px' }}>
+    <section className="analytics">
+      <header className="analytics--title">Analytics</header>
+      <div className="analytics--main">
+        <div className="analytics--main--left">
+          <div className="analytics--main--div" style={{ maxHeight: '300px' }}>
             {loading ? (
               <LoadingSpinner />
             ) : transactions.length > 0 ? (
@@ -88,7 +88,7 @@ const DashBoard = () => {
               <IncomeExpenseChart data={MockIncomeExpenseData} />
             )}
           </div>
-          <div className="dashboard--main--div">
+          <div className="analytics--main--div">
             {loading ? (
               <LoadingSpinner />
             ) : transactions.length > 0 ? (
@@ -98,8 +98,8 @@ const DashBoard = () => {
             )}
           </div>
         </div>
-        <div className="dashboard--main--right">
-          <div className="dashboard--main--div" style={{ maxHeight: '300px' }}>
+        <div className="analytics--main--right">
+          <div className="analytics--main--div" style={{ maxHeight: '300px' }}>
             {loading ? (
               <LoadingSpinner />
             ) : transactions.length > 0 ? (
@@ -114,7 +114,7 @@ const DashBoard = () => {
               />
             )}
           </div>
-          <div className="dashboard--main--div">
+          <div className="analytics--main--div">
             {loading ? (
               <LoadingSpinner />
             ) : transactions.length > 0 ? (
@@ -157,7 +157,7 @@ const DashBoard = () => {
               />
             )}
           </div>
-          <div className="dashboard--main--div" style={{ maxHeight: '110px' }}>
+          <div className="analytics--main--div" style={{ maxHeight: '110px' }}>
             <TotalBalanceCard
               balance={transactions.reduce((total, transaction) => total + transaction.amount, 0)}
               percentageChange={5}
@@ -172,4 +172,4 @@ const DashBoard = () => {
   );
 };
 
-export default DashBoard;
+export default AnalyticsPage;

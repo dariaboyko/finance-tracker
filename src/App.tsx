@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import AuthRedirect from 'hooks/authRedirect';
 import Login from 'pages/login';
 import MainWrapper from 'components/main-wrapper';
-import DashBoard from 'pages/dashboard';
+import AnalyticsPage from 'pages/analytics';
+import HomePage from 'pages/home';
 
 function App() {
   return (
@@ -18,8 +19,9 @@ function App() {
                 <AuthRedirect>
                   <MainWrapper>
                     <Routes>
-                      <Route index element={<Navigate to="/dashboard" />} />
-                      <Route path="/dashboard" element={<DashBoard />} />
+                      <Route index element={<Navigate to="/home" />} />
+                      <Route path="/home" element={<HomePage />} />
+                      <Route path="/analytics" element={<AnalyticsPage />} />
                     </Routes>
                   </MainWrapper>
                 </AuthRedirect>

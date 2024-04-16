@@ -1,0 +1,31 @@
+.home {
+    width: 100%;
+    padding: 10px 20px 20px;
+    max-height: 100%;
+    display: flex;
+    align-items: center;
+
+    &--title {
+        font-size: var(--ant-font-size-heading-2);
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    &--subtitle {
+        font-size: var(--ant-font-size-heading-3);
+    }
+
+    &--image {
+        width: 1000px;
+    }
+
+    &--main {
+        display: flex;
+        gap: 24px;
+        font-size: var(--ant-font-size-xl);
+    }
+
+    &--button {
+        margin-top: 20px;
+    }
+}
