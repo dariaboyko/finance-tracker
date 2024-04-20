@@ -9,12 +9,13 @@ interface Transaction {
 
 interface TransactionsListProps {
   transactions: Transaction[];
+  showTitle: boolean;
 }
 
-const TransactionsList: React.FC<TransactionsListProps> = ({ transactions }) => {
+const TransactionsList: React.FC<TransactionsListProps> = ({ transactions, showTitle }) => {
   return (
     <div className="transactions">
-      <div className="transactions--title">Transactions</div>
+      {showTitle && <div className="transactions--title">Transactions</div>}
       <ul className="transactions--list">
         {transactions.map((transaction, index) => (
           <li key={index} className={transaction.amount >= 0 ? 'positive' : 'negative'}>
@@ -23,7 +24,7 @@ const TransactionsList: React.FC<TransactionsListProps> = ({ transactions }) => 
               <div className="transactions--list--date">{transaction.date}</div>
             </div>
             <div className="transactions--list--amount">
-              {transaction.amount > 0 ? `+${transaction.amount}` : transaction.amount}
+              {transaction.amount > 0 ? `+$${transaction.amount}` : `-$${-1 * transaction.amount}`}
             </div>
           </li>
         ))}

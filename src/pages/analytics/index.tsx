@@ -92,7 +92,7 @@ const AnalyticsPage = () => {
             {loading ? (
               <LoadingSpinner />
             ) : transactions.length > 0 ? (
-              <TransactionsList transactions={transactions} />
+              <TransactionsList transactions={transactions} showTitle={true} />
             ) : (
               <NoResults />
             )}
@@ -160,6 +160,7 @@ const AnalyticsPage = () => {
           <div className="analytics--main--div" style={{ maxHeight: '110px' }}>
             <TotalBalanceCard
               balance={transactions.reduce((total, transaction) => total + transaction.amount, 0)}
+              title="Total Balance"
               percentageChange={5}
               isIncrease={
                 transactions.reduce((total, transaction) => total + transaction.amount, 0) >= 0
