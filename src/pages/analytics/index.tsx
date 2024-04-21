@@ -10,6 +10,7 @@ import NoResults from 'components/no-results';
 import LoadingSpinner from 'components/loading-spinner';
 import { getExpensesData } from 'services/expensesService';
 import { getIncomesData } from 'services/incomesService';
+import mockService from 'services/mockService';
 
 const colors = ['#389e0d', '#cf1322'];
 const MockIncomeExpenseData = [
@@ -46,7 +47,7 @@ const AnalyticsPage = () => {
           (expense: Expense, index) => ({
             name: `Expense ${index + 1}`,
             date: expense.setDate.substring(0, 10),
-            amount: expense.amount
+            amount: -1 * expense.amount
           })
         );
 
@@ -66,6 +67,7 @@ const AnalyticsPage = () => {
         setTransactions(allTransactions);
       } catch (error) {
         console.error('Error fetching data:', error);
+        setTransactions(mockService.generateMockAllTransactions(10));
       } finally {
         setLoading(false);
       }

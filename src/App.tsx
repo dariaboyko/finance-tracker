@@ -7,6 +7,7 @@ import AnalyticsPage from 'pages/analytics';
 import HomePage from 'pages/home';
 import IncomesPage from 'pages/incomes';
 import ExpensesPage from 'pages/expenses';
+import AccountPage from 'pages/account';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
                       <Route path="/analytics" element={<AnalyticsPage />} />
                       <Route path="/incomes" element={<IncomesPage />} />
                       <Route path="/expenses" element={<ExpensesPage />} />
+                      <Route path="/account" element={<AccountPage />} />
                     </Routes>
                   </MainWrapper>
                 </AuthRedirect>

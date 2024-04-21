@@ -1,4 +1,4 @@
-import { Expense, TransactionListItem } from 'models';
+import { Expense, Subscription, SubscriptionResponse, TransactionListItem } from 'models';
 
 class mockService {
   static generateMockIncomes(count: number): TransactionListItem[] {
@@ -43,6 +43,27 @@ class mockService {
     return transactions;
   }
 
+  static generateMockAllTransactions(count: number): TransactionListItem[] {
+    const transactions: TransactionListItem[] = [];
+    const names = ['ZooMarket', 'Novus', 'Metro', 'Greek House'];
+    const dates = ['2024-04-01', '2024-04-02', '2024-04-03', '2024-04-04'];
+    const minAmount = -1000;
+    const maxAmount = 4000;
+
+    for (let i = 0; i < count; i++) {
+      const randomName = names[Math.floor(Math.random() * names.length)];
+      const randomDate = dates[Math.floor(Math.random() * dates.length)];
+      const randomAmount = Math.floor(Math.random() * (maxAmount - minAmount + 1)) + minAmount;
+      transactions.push({
+        name: randomName,
+        date: randomDate,
+        amount: randomAmount
+      });
+    }
+
+    return transactions;
+  }
+
   static generateMockExpenses(count: number): Expense[] {
     const expenses: Expense[] = [];
     const categoryIds = ['category1', 'category2', 'category3', 'category4'];
@@ -67,6 +88,40 @@ class mockService {
     }
 
     return expenses;
+  }
+
+  static generateMockSubscriptions(count: number): SubscriptionResponse {
+    const subscriptions: Subscription[] = [];
+    const statusOptions = ['active', 'inactive'];
+    const userId = 'user123';
+
+    for (let i = 0; i < count; i++) {
+      const id = `subscription_${i + 1}`;
+      const transactionId = `transaction_${i + 1}`;
+      const status = statusOptions[Math.floor(Math.random() * statusOptions.length)];
+      const setDate = new Date();
+      const endDate = new Date(setDate.getFullYear() + 1, setDate.getMonth(), setDate.getDate()); // Set end date to one year from start date
+
+      const subscription: Subscription = {
+        id,
+        transactionId,
+        status,
+        setDate,
+        endDate,
+        userId
+      };
+
+      subscriptions.push(subscription);
+    }
+
+    return {
+      items: subscriptions,
+      page: 1,
+      pageSize: count,
+      totalCount: count,
+      hasNextPage: false,
+      hasPreviousPage: false
+    };
   }
 }
 

@@ -10,12 +10,16 @@ import {
   UpOutlined,
   LogoutOutlined
 } from '@ant-design/icons';
+import { logout } from 'services/authService';
+import { getUserEmail, getUserName } from 'utils/tokenService';
 
 const MainMenu = () => {
   const [showAnalyticsSubMenu, setShowAnalyticsSubMenu] = useState(true);
   const [currentPath, setCurrentPath] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
+  const email = getUserEmail();
+  const name = getUserName();
 
   useEffect(() => {
     setCurrentPath(location.pathname);
@@ -93,10 +97,15 @@ const MainMenu = () => {
       </div>
       <footer className="footer">
         <div className="footer--info">
-          <span>username</span>
-          <span>email</span>
+          <span>{name}</span>
+          <span>{email}</span>
         </div>
-        <LogoutOutlined />
+        <LogoutOutlined
+          onClick={() => {
+            logout();
+            handleNavigation('/login');
+          }}
+        />
       </footer>
     </section>
   );

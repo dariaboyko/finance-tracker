@@ -1,19 +1,20 @@
 import './incomes.scss';
 import TransactionsList from 'components/transaction-list';
-import PieChart from 'components/pie-chart';
 import TotalBalanceCard from 'components/total-balance-card';
 import { useEffect, useState } from 'react';
 import { Income, TransactionListItem } from 'models';
 import NoResults from 'components/no-results';
 import LoadingSpinner from 'components/loading-spinner';
+import { Pagination } from 'antd';
 import { getIncomesData } from 'services/incomesService';
 import mockService from 'services/mockService';
 
-const colors = ['#389e0d'];
-
 const IncomesPage = () => {
+  const PAGE_SIZE = 15;
   const [transactions, setTransactions] = useState<TransactionListItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [pagination, setPagination] = useState({ current: 1, pageSize: PAGE_SIZE, total: 0 });
+  const [isPaginationChange, setIsPaginationChange] = useState<boolean>(true);
 
   useEffect(() => {
     async function fetchData() {
@@ -25,7 +26,12 @@ const IncomesPage = () => {
         fromDate.setDate(today.getDate() - 29);
         const formattedFromDate = fromDate.toISOString().split('T')[0];
 
-        const incomesResponse = await getIncomesData(formattedFromDate, toDate, 1, 30);
+        const incomesResponse = await getIncomesData(
+          formattedFromDate,
+          toDate,
+          pagination.current,
+          pagination.pageSize
+        );
         const incomes: TransactionListItem[] = incomesResponse.items.map(
           (income: Income, index) => ({
             name: `Income ${index + 1}`,
@@ -35,42 +41,68 @@ const IncomesPage = () => {
         );
 
         setTransactions(incomes);
+        setPagination((prevPagination) => ({
+          ...prevPagination,
+          total: incomesResponse.totalCount
+        }));
       } catch (error) {
         console.error('Error fetching data:', error);
-        const mockTransactions = mockService.generateMockIncomes(10);
+        const mockTransactions = mockService.generateMockIncomes(pagination.pageSize);
         setTransactions(mockTransactions);
+        setPagination((prevPagination) => ({
+          ...prevPagination,
+          total: 200
+        }));
       } finally {
         setLoading(false);
       }
     }
 
-    fetchData();
-  }, []);
+    if (isPaginationChange) {
+      setIsPaginationChange(false);
+      fetchData();
+    }
+  }, [pagination]);
+
+  const handlePaginationChange = (page: number, pageSize?: number) => {
+    setPagination({ current: page, pageSize: pageSize || PAGE_SIZE, total: pagination.total });
+    setIsPaginationChange(true);
+  };
 
   return (
-    <section className="analytics">
-      <header className="analytics--title">Incomes</header>
-      <div className="analytics--main">
-        <div className="analytics--main--left">
-          <div className="analytics--main--div">
+    <section className="incomes">
+      <header className="incomes--title">Incomes</header>
+      <div className="incomes--main">
+        <div className="incomes--main--left">
+          <div className="incomes--main--div">
             {loading ? (
               <LoadingSpinner />
             ) : transactions.length > 0 ? (
-              <TransactionsList transactions={transactions} showTitle={false} />
+              <>
+                <div style={{ height: '95%' }}>
+                  <TransactionsList transactions={transactions} showTitle={false} />
+                </div>
+                <Pagination
+                  current={pagination.current}
+                  pageSize={pagination.pageSize}
+                  onChange={handlePaginationChange}
+                  total={pagination.total}
+                />
+              </>
             ) : (
               <NoResults />
             )}
           </div>
         </div>
-        <div className="analytics--main--right">
-          <div className="analytics--main--div" style={{ maxHeight: '110px' }}>
+        <div className="incomes--main--right">
+          <div className="incomes--main--div" style={{ maxHeight: '110px' }}>
             <TotalBalanceCard
               title="Total Income"
               balance={transactions.reduce((total, transaction) => total + transaction.amount, 0)}
               isIncrease={true}
             />
           </div>
-          <div className="analytics--main--div"></div>
+          <div className="incomes--main--div"></div>
         </div>
       </div>
     </section>
