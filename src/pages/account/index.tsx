@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import './account.scss';
 import { Subscription } from 'models';
-import { getSubscriptions } from 'services/userService';
+import { getSubscriptions, renewSubscription } from 'services/userService';
 import mockService from 'services/mockService';
+import SubscriptionsList from 'components/subscription-list';
+import LoadingSpinner from 'components/loading-spinner';
+import NoResults from 'components/no-results';
+import { getUserId } from 'utils/tokenService';
 
 const AccountPage = () => {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
@@ -11,7 +15,7 @@ const AccountPage = () => {
   useEffect(() => {
     const fetchSubscriptions = async () => {
       try {
-        const data = await getSubscriptions('userId', 1, 10);
+        const data = await getSubscriptions(getUserId(), 1, 10);
         setSubscriptions(data.items);
         setLoading(false);
       } catch (error) {
@@ -24,27 +28,38 @@ const AccountPage = () => {
     fetchSubscriptions();
   }, []);
 
+  const updateSubscription = async () => {
+    setLoading(true);
+    try {
+      await renewSubscription(getUserId());
+      const data = await getSubscriptions(getUserId(), 1, 10);
+      setSubscriptions(data.items);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      const mock = mockService.generateMockSubscriptions(10);
+      setSubscriptions(mock.items);
+    }
+  };
+
   return (
-    <div className="account-page">
-      {loading && <p>Loading...</p>}
-      {!loading && (
-        <div className="subscription-list">
-          <h2>Subscriptions</h2>
-          <ul>
-            {subscriptions.map((subscription) => (
-              <li key={subscription.id}>
-                <p>ID: {subscription.id}</p>
-                <p>Transaction ID: {subscription.transactionId}</p>
-                <p>Status: {subscription.status}</p>
-                <p>Start Date: {subscription.setDate.toString()}</p>
-                <p>End Date: {subscription.endDate.toString()}</p>
-                <p>User ID: {subscription.userId}</p>
-              </li>
-            ))}
-          </ul>
+    <section className="account">
+      <header className="account--title">Account</header>
+      <div className="account--main">
+        <div className="account--main--div">
+          {loading ? (
+            <LoadingSpinner />
+          ) : subscriptions.length > 0 ? (
+            <SubscriptionsList
+              subscriptions={subscriptions}
+              renewSubscription={updateSubscription}
+            />
+          ) : (
+            <NoResults />
+          )}
         </div>
-      )}
-    </div>
+      </div>
+    </section>
   );
 };
 

@@ -92,7 +92,7 @@ class mockService {
 
   static generateMockSubscriptions(count: number): SubscriptionResponse {
     const subscriptions: Subscription[] = [];
-    const statusOptions = ['active', 'inactive'];
+    const statusOptions = [1, 0];
     const userId = 'user123';
 
     for (let i = 0; i < count; i++) {
@@ -100,14 +100,14 @@ class mockService {
       const transactionId = `transaction_${i + 1}`;
       const status = statusOptions[Math.floor(Math.random() * statusOptions.length)];
       const setDate = new Date();
-      const endDate = new Date(setDate.getFullYear() + 1, setDate.getMonth(), setDate.getDate()); // Set end date to one year from start date
+      const endDate = new Date(setDate.getFullYear() + 1, setDate.getMonth(), setDate.getDate());
 
       const subscription: Subscription = {
         id,
         transactionId,
         status,
-        setDate,
-        endDate,
+        setDate: setDate.toISOString(),
+        endDate: endDate.toISOString(),
         userId
       };
 

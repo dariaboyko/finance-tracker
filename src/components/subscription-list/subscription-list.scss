@@ -1,0 +1,51 @@
+.subscriptions {
+    padding: 5px 10px;
+    max-height: 100%;
+    overflow: auto;
+
+    &--title {
+        font-size: var(--ant-font-size-xl);
+        font-weight: 500;
+        margin: 0 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &--list {
+        display: flex;
+        gap: 15px;
+        flex-direction: column;
+
+        li {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &--name {
+            font-size: var(--ant-font-size-lg);
+        }
+
+        &--date {
+            font-size: var(--ant-font-size);
+            color: var(--ant-color-text-disabled);
+        }
+
+        &--status {
+            font-size: var(--ant-font-size-lg);
+            font-weight: 500;
+        }
+    }
+
+    .positive {
+        .subscriptions--list--status {
+            color: var(--ant-green-7);
+        }
+    }
+
+    .negative {
+        .subscriptions--list--status {
+            color: var(--ant-red-7);
+        }
+    }
+}

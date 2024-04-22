@@ -8,6 +8,7 @@ import HomePage from 'pages/home';
 import IncomesPage from 'pages/incomes';
 import ExpensesPage from 'pages/expenses';
 import AccountPage from 'pages/account';
+import SettingsPage from 'pages/settings';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
                       <Route path="/incomes" element={<IncomesPage />} />
                       <Route path="/expenses" element={<ExpensesPage />} />
                       <Route path="/account" element={<AccountPage />} />
+                      <Route path="/settings" element={<SettingsPage />} />
                     </Routes>
                   </MainWrapper>
                 </AuthRedirect>

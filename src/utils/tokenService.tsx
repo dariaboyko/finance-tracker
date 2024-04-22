@@ -38,8 +38,8 @@ export const setUserId = (refreshToken: string): void => {
   Cookies.set(USER_ID_KEY, refreshToken, { expires: 7, path: '/' });
 };
 
-export const getUserId = (): string | undefined => {
-  return Cookies.get(USER_ID_KEY);
+export const getUserId = (): string => {
+  return Cookies.get(USER_ID_KEY) ?? '';
 };
 
 export const setUserEmail = (refreshToken: string): void => {

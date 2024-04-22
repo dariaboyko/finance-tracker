@@ -25,3 +25,16 @@ export async function getSubscriptions(
     throw error;
   }
 }
+
+export async function renewSubscription(userId: string): Promise<void> {
+  try {
+    await axiosInstance.put(`/api/v1/subscription/complete`, {
+      params: {
+        userId: userId
+      }
+    });
+  } catch (error) {
+    message.error('Server error. Please try again in a couple of minutes.');
+    throw error;
+  }
+}

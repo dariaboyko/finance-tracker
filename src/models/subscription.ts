@@ -1,9 +1,9 @@
 export interface Subscription {
   id: string;
   transactionId: string;
-  status: string;
-  setDate: Date;
-  endDate: Date;
+  status: number;
+  setDate: string;
+  endDate: string;
   userId: string;
 }
 
