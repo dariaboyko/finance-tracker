@@ -6,3 +6,4 @@ export * from './incomes';
 export * from './expenses';
 export * from './categoryMapper';
 export * from './subscription';
+export * from './debts';

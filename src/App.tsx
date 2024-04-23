@@ -9,6 +9,7 @@ import IncomesPage from 'pages/incomes';
 import ExpensesPage from 'pages/expenses';
 import AccountPage from 'pages/account';
 import SettingsPage from 'pages/settings';
+import DebtsPage from 'pages/debts';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
                       <Route path="/analytics" element={<AnalyticsPage />} />
                       <Route path="/incomes" element={<IncomesPage />} />
                       <Route path="/expenses" element={<ExpensesPage />} />
+                      <Route path="/debts" element={<DebtsPage />} />
                       <Route path="/account" element={<AccountPage />} />
                       <Route path="/settings" element={<SettingsPage />} />
                     </Routes>

@@ -1,4 +1,4 @@
-import { Expense, Subscription, SubscriptionResponse, TransactionListItem } from 'models';
+import { Debt, Expense, Subscription, SubscriptionResponse, TransactionListItem } from 'models';
 
 class mockService {
   static generateMockIncomes(count: number): TransactionListItem[] {
@@ -122,6 +122,36 @@ class mockService {
       hasNextPage: false,
       hasPreviousPage: false
     };
+  }
+
+  static generateMockDebts(count: number): Debt[] {
+    const debts: Debt[] = [];
+    const creditorNames = ['Creditor 1', 'Creditor 2', 'Creditor 3', 'Creditor 4'];
+    const statuses = ['Pending', 'Paid', 'Unpaid'];
+
+    for (let i = 0; i < count; i++) {
+      const id = `debt_${i + 1}`;
+      const userId = `user_${i + 1}`;
+      const creditorName = creditorNames[Math.floor(Math.random() * creditorNames.length)];
+      const amount = Math.floor(Math.random() * 1000);
+      const setDate = new Date().toISOString();
+      const status = statuses[Math.floor(Math.random() * statuses.length)];
+      const updatedDate = new Date().toISOString();
+
+      const debt: Debt = {
+        id,
+        userId,
+        amount,
+        creditorName,
+        status,
+        setDate,
+        updatedDate
+      };
+
+      debts.push(debt);
+    }
+
+    return debts;
   }
 }
 
