@@ -1,0 +1,42 @@
+.debts-list {
+    padding: 5px 10px;
+    max-height: 100%;
+    overflow: auto;
+
+    &--list {
+        display: flex;
+        gap: 15px;
+        flex-direction: column;
+
+        li {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &--name {
+            font-size: var(--ant-font-size-lg);
+        }
+
+        &--date {
+            font-size: var(--ant-font-size);
+            color: var(--ant-color-text-disabled);
+        }
+
+        &--amount {
+            font-size: var(--ant-font-size-xl);
+            font-weight: 600;
+        }
+    }
+
+    .positive {
+        .debts--list--amount {
+            color: var(--ant-green-7);
+        }
+    }
+
+    .negative {
+        .debts--list--amount {
+            color: var(--ant-red-7);
+        }
+    }
+}
