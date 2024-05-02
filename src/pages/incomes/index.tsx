@@ -5,9 +5,11 @@ import { useEffect, useState } from 'react';
 import { Income, TransactionListItem } from 'models';
 import NoResults from 'components/no-results';
 import LoadingSpinner from 'components/loading-spinner';
-import { Pagination } from 'antd';
-import { getIncomesData } from 'services/incomesService';
+import { Button, Pagination, message } from 'antd';
+import { deleteIncome, getIncomesData } from 'services/incomesService';
 import mockService from 'services/mockService';
+import { PlusOutlined } from '@ant-design/icons';
+import AddIncomeModal from 'components/add-income-modal';
 
 const IncomesPage = () => {
   const PAGE_SIZE = 15;
@@ -15,6 +17,7 @@ const IncomesPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [pagination, setPagination] = useState({ current: 1, pageSize: PAGE_SIZE, total: 0 });
   const [isPaginationChange, setIsPaginationChange] = useState<boolean>(true);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -36,7 +39,8 @@ const IncomesPage = () => {
           (income: Income, index) => ({
             name: `Income ${index + 1}`,
             date: income.setDate.substring(0, 10),
-            amount: income.amount
+            amount: income.amount,
+            id: income.id
           })
         );
 
@@ -69,9 +73,34 @@ const IncomesPage = () => {
     setIsPaginationChange(true);
   };
 
+  const handleAddIncome = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleDeleteIncome = (id: string) => {
+    try {
+      deleteIncome(id);
+    } catch (error) {
+      message.error('Failed to delete income. Please try again later.');
+    } finally {
+      handlePaginationChange(pagination.current);
+      message.success('Income was deleted successfully');
+    }
+  };
+
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+    handlePaginationChange(pagination.current);
+  };
+
   return (
     <section className="incomes">
-      <header className="incomes--title">Incomes</header>
+      <header className="incomes--title">
+        Incomes
+        <Button type="primary" onClick={handleAddIncome}>
+          <PlusOutlined /> Add Income
+        </Button>
+      </header>
       <div className="incomes--main">
         <div className="incomes--main--left">
           <div className="incomes--main--div">
@@ -80,7 +109,12 @@ const IncomesPage = () => {
             ) : transactions.length > 0 ? (
               <>
                 <div style={{ height: '95%' }}>
-                  <TransactionsList transactions={transactions} showTitle={false} />
+                  <TransactionsList
+                    transactions={transactions}
+                    showTitle={false}
+                    addDeletion={true}
+                    onTransactionDelete={(tran) => handleDeleteIncome(String(tran.id))}
+                  />
                 </div>
                 <Pagination
                   current={pagination.current}
@@ -105,6 +139,7 @@ const IncomesPage = () => {
           <div className="incomes--main--div"></div>
         </div>
       </div>
+      <AddIncomeModal visible={isModalVisible} onClose={handleModalClose} />
     </section>
   );
 };

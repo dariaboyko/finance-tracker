@@ -14,3 +14,17 @@ export interface ExpensesResponse {
   hasNextPage: boolean;
   hasPreviousPage: boolean;
 }
+
+export interface ExpensesCategoriesResponse {
+  items: ExpenseCategory[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+}
+
+export interface ExpenseCategory {
+  categoryName: string;
+  categoryId: string;
+}

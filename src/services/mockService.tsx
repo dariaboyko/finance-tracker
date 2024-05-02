@@ -1,4 +1,10 @@
-import { Expense, Subscription, SubscriptionResponse, TransactionListItem } from 'models';
+import {
+  Expense,
+  ExpenseCategory,
+  Subscription,
+  SubscriptionResponse,
+  TransactionListItem
+} from 'models';
 
 class mockService {
   static generateMockIncomes(count: number): TransactionListItem[] {
@@ -15,7 +21,8 @@ class mockService {
       transactions.push({
         name: randomName,
         date: randomDate,
-        amount: randomAmount
+        amount: randomAmount,
+        id: 'dwieow'
       });
     }
 
@@ -122,6 +129,25 @@ class mockService {
       hasNextPage: false,
       hasPreviousPage: false
     };
+  }
+
+  static generateMockExpenseCategories(count: number): ExpenseCategory[] {
+    const expenseCategories: ExpenseCategory[] = [];
+    const categoryNames = ['Category 1', 'Category 2', 'Category 3', 'Category 4'];
+
+    for (let i = 0; i < count; i++) {
+      const categoryId = `category_${i + 1}`;
+      const categoryName = categoryNames[i % categoryNames.length];
+
+      const expenseCategory: ExpenseCategory = {
+        categoryId,
+        categoryName
+      };
+
+      expenseCategories.push(expenseCategory);
+    }
+
+    return expenseCategories;
   }
 }
 

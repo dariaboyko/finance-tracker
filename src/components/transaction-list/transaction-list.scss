@@ -3,6 +3,10 @@
     max-height: 100%;
     overflow: auto;
 
+    .ant-btn{
+        margin-left: 10px;
+    }
+
     &--title {
         font-size: var(--ant-font-size-xl);
         font-weight: 500;
@@ -31,6 +35,8 @@
         &--amount {
             font-size: var(--ant-font-size-xl);
             font-weight: 600;
+            display: flex;
+            align-items: center;
         }
     }
 

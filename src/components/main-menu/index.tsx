@@ -85,14 +85,14 @@ const MainMenu = () => {
             <UserOutlined />
             <span>Account</span>
           </li>
-          <li
+          {/* <li
             onClick={() => handleNavigation('/settings')}
             className={
               currentPath === '/settings' ? 'menu--list--item active' : 'menu--list--item'
             }>
             <SettingOutlined />
             <span>Settings</span>
-          </li>
+          </li> */}
         </ul>
       </div>
       <footer className="footer">

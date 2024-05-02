@@ -10,4 +10,5 @@ export interface TransactionListItem {
   name: string;
   date: string;
   amount: number;
+  id?: number | string;
 }

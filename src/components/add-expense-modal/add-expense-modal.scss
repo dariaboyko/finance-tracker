@@ -1,0 +1,15 @@
+.expense-modal {
+    .ant-modal-header {
+        margin-bottom: 15px;
+    }
+
+    .ant-form-item-control-input-content {
+        display: flex;
+        justify-content: flex-end;
+        gap: 5px;
+    }
+
+    .ant-form-item:last-child {
+        margin-bottom: 0;
+    }
+}

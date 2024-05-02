@@ -1,16 +1,16 @@
 import { message } from 'antd';
 import { AxiosResponse } from 'axios';
-import { Income, IncomesResponse } from 'models';
+import { Debt, DebtsResponse } from 'models';
 import axiosInstance from 'utils/axiousInstance';
 
-export async function getIncomesData(
+export async function getDebtsData(
   fromDate: string,
   toDate: string,
   page: number,
   pageSize: number
-): Promise<IncomesResponse> {
+): Promise<DebtsResponse> {
   try {
-    const response: AxiosResponse<IncomesResponse> = await axiosInstance.get(`/api/v1/incomes`, {
+    const response: AxiosResponse<DebtsResponse> = await axiosInstance.get(`/api/v1/debts`, {
       params: {
         fromDate: fromDate,
         toDate: toDate,
@@ -25,12 +25,11 @@ export async function getIncomesData(
   }
 }
 
-export async function addIncome(amount: number, setDate: string, source: string): Promise<Income> {
+export async function addDebt(amount: number, creditorName: string): Promise<Debt> {
   try {
-    const response: AxiosResponse<Income> = await axiosInstance.post(`/api/v1/incomes`, {
+    const response: AxiosResponse<Debt> = await axiosInstance.post(`/api/v1/debts`, {
       amount: amount,
-      setDate: setDate,
-      source: source
+      creditorName: creditorName
     });
     return response.data;
   } catch (error) {
@@ -39,11 +38,11 @@ export async function addIncome(amount: number, setDate: string, source: string)
   }
 }
 
-export async function deleteIncome(id: string): Promise<void> {
+export async function deleteDebt(id: string): Promise<void> {
   try {
-    const response: AxiosResponse<void> = await axiosInstance.delete(`/api/v1/incomes`, {
+    const response: AxiosResponse<void> = await axiosInstance.delete(`/api/v1/debts`, {
       params: {
-        incomeId: id
+        debtId: id
       }
     });
     return response.data;

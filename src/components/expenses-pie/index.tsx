@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
-import { Expense, categoryMapper } from 'models';
+import { Expense, ExpenseCategory } from 'models';
 
 interface PieProps {
   expenses: Expense[];
+  categories: ExpenseCategory[];
 }
 
-const ExpensesPieChart: React.FC<PieProps> = ({ expenses }) => {
+const ExpensesPieChart: React.FC<PieProps> = ({ expenses, categories }) => {
   const chartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ const ExpensesPieChart: React.FC<PieProps> = ({ expenses }) => {
       const sortedCategories = Array.from(categoryMap.entries()).sort((a, b) => b[1] - a[1]);
 
       const categoryData = sortedCategories.map(([categoryId, amount], index) => ({
-        name: categoryMapper[categoryId],
+        name: getCategoryName(categoryId),
         value: amount,
         itemStyle: {
           color: echarts.color.lift(echarts.color.random(), index * 0.1)
@@ -80,6 +81,11 @@ const ExpensesPieChart: React.FC<PieProps> = ({ expenses }) => {
       };
     }
   }, [expenses]);
+
+  const getCategoryName = (categoryId: string): string => {
+    const category = categories.find((cat) => cat.categoryId === categoryId);
+    return category ? category.categoryName : categoryId;
+  };
 
   return <div ref={chartRef} style={{ width: '100%', height: '100%' }} />;
 };

@@ -2,21 +2,29 @@ import './expenses.scss';
 import TransactionsList from 'components/transaction-list';
 import TotalBalanceCard from 'components/total-balance-card';
 import { useEffect, useState } from 'react';
-import { Expense, TransactionListItem } from 'models';
+import { Expense, ExpenseCategory, TransactionListItem } from 'models';
 import NoResults from 'components/no-results';
 import LoadingSpinner from 'components/loading-spinner';
 import mockService from 'services/mockService';
-import { getExpensesData } from 'services/expensesService';
+import {
+  deleteExpense,
+  getExpensesCategoriesData,
+  getExpensesData
+} from 'services/expensesService';
 import ExpensesPieChart from 'components/expenses-pie';
-import { Pagination } from 'antd';
+import { Button, Pagination, message } from 'antd';
+import AddExpenseModal from 'components/add-expense-modal';
+import { PlusOutlined } from '@ant-design/icons';
 
 const ExpensesPage = () => {
   const PAGE_SIZE = 15;
   const [transactions, setTransactions] = useState<TransactionListItem[]>([]);
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [categories, setCategories] = useState<ExpenseCategory[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isPaginationChange, setIsPaginationChange] = useState<boolean>(true);
   const [pagination, setPagination] = useState({ current: 1, pageSize: PAGE_SIZE, total: 0 });
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -35,12 +43,16 @@ const ExpensesPage = () => {
           pagination.pageSize
         );
 
+        const expensesCategoriesResponse = await getExpensesCategoriesData(1, 100);
+
         setExpenses(expensesResponse.items);
+        setCategories(expensesCategoriesResponse.items);
         const expenses: TransactionListItem[] = expensesResponse.items.map(
           (expense: Expense, index) => ({
             name: `Expense ${index + 1}`,
             date: expense.setDate.substring(0, 10),
-            amount: expense.amount * -1
+            amount: expense.amount * -1,
+            id: expense.id
           })
         );
 
@@ -56,6 +68,7 @@ const ExpensesPage = () => {
         );
         setTransactions(mockTransactions);
         setExpenses(mockService.generateMockExpenses(10));
+        setCategories(mockService.generateMockExpenseCategories(10));
         setPagination((prevPagination) => ({
           ...prevPagination,
           total: 200
@@ -76,9 +89,34 @@ const ExpensesPage = () => {
     setIsPaginationChange(true);
   };
 
+  const handleAddExpense = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleDeleteExpense = (id: string) => {
+    try {
+      deleteExpense(id);
+    } catch (error) {
+      message.error('Failed to delete expense. Please try again later.');
+    } finally {
+      handlePaginationChange(pagination.current);
+      message.success('Expense was deleted successfully');
+    }
+  };
+
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+    handlePaginationChange(pagination.current);
+  };
+
   return (
     <section className="expenses">
-      <header className="expenses--title">Expenses</header>
+      <header className="expenses--title">
+        Expenses{' '}
+        <Button type="primary" onClick={handleAddExpense}>
+          <PlusOutlined /> Add Expense
+        </Button>
+      </header>
       <div className="expenses--main">
         <div className="expenses--main--left">
           <div className="expenses--main--div">
@@ -87,7 +125,12 @@ const ExpensesPage = () => {
             ) : transactions.length > 0 ? (
               <>
                 <div style={{ height: '95%' }}>
-                  <TransactionsList transactions={transactions} showTitle={false} />
+                  <TransactionsList
+                    transactions={transactions}
+                    showTitle={false}
+                    addDeletion={true}
+                    onTransactionDelete={(tran) => handleDeleteExpense(String(tran.id))}
+                  />
                 </div>
                 <Pagination
                   current={pagination.current}
@@ -106,7 +149,7 @@ const ExpensesPage = () => {
             {loading ? (
               <LoadingSpinner />
             ) : transactions.length > 0 ? (
-              <ExpensesPieChart expenses={expenses} />
+              <ExpensesPieChart expenses={expenses} categories={categories} />
             ) : (
               <NoResults />
             )}
@@ -120,6 +163,7 @@ const ExpensesPage = () => {
           </div>
         </div>
       </div>
+      <AddExpenseModal visible={isModalVisible} onClose={handleModalClose} />
     </section>
   );
 };
