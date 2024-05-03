@@ -3,6 +3,13 @@
     max-height: 100%;
     overflow: auto;
 
+    &--text {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: calc(100% - 100px);
+    }
+
     &--list {
         display: flex;
         gap: 15px;
@@ -10,6 +17,7 @@
 
         li {
             display: flex;
+            align-items: center;
             justify-content: space-between;
         }
 
@@ -25,6 +33,11 @@
         &--amount {
             font-size: var(--ant-font-size-xl);
             font-weight: 600;
+        }
+
+        &--actions {
+            display: flex;
+            gap: 5px;
         }
     }
 

@@ -16,9 +16,7 @@ const SubscriptionsList: React.FC<SubscriptionsListProps> = ({
     <div className="subscriptions">
       <div className="subscriptions--title">
         <span>Subscriptions</span>
-        <Button type="dashed" onClick={() => renewSubscription()}>
-          Renew Subscription
-        </Button>
+        <Button onClick={() => renewSubscription()}>Buy Premium</Button>
       </div>
       <ul className="subscriptions--list">
         {subscriptions.map((sub, index) => (

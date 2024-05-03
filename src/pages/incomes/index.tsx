@@ -77,14 +77,13 @@ const IncomesPage = () => {
     setIsModalVisible(true);
   };
 
-  const handleDeleteIncome = (id: string) => {
+  const handleDeleteIncome = async (id: string) => {
     try {
-      deleteIncome(id);
+      await deleteIncome(id);
+      message.success('Income was deleted successfully');
+      handlePaginationChange(pagination.current);
     } catch (error) {
       message.error('Failed to delete income. Please try again later.');
-    } finally {
-      handlePaginationChange(pagination.current);
-      message.success('Income was deleted successfully');
     }
   };
 

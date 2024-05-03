@@ -26,15 +26,22 @@ export async function getSubscriptions(
   }
 }
 
-export async function renewSubscription(userId: string): Promise<void> {
+export async function buyPremiumSubscription(): Promise<void> {
   try {
-    await axiosInstance.put(`/api/v1/subscription/complete`, {
+    await axiosInstance.put(`/api/v1/subscription`, {
       params: {
-        userId: userId
+        transactionId: generateGuid()
       }
     });
   } catch (error) {
     message.error('Server error. Please try again in a couple of minutes.');
     throw error;
   }
+}
+export function generateGuid(): string {
+  const s4 = () =>
+    Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
 }

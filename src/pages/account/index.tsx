@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './account.scss';
 import { Subscription } from 'models';
-import { getSubscriptions, renewSubscription } from 'services/userService';
+import { getSubscriptions, buyPremiumSubscription } from 'services/userService';
 import mockService from 'services/mockService';
 import SubscriptionsList from 'components/subscription-list';
 import LoadingSpinner from 'components/loading-spinner';
@@ -31,7 +31,7 @@ const AccountPage = () => {
   const updateSubscription = async () => {
     setLoading(true);
     try {
-      await renewSubscription(getUserId());
+      await buyPremiumSubscription();
       const data = await getSubscriptions(getUserId(), 1, 10);
       setSubscriptions(data.items);
       setLoading(false);

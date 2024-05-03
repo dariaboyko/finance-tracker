@@ -51,3 +51,22 @@ export async function deleteDebt(id: string): Promise<void> {
     throw error;
   }
 }
+
+export async function editDebt(
+  id: string,
+  amount: number,
+  creditorName: string,
+  status: string
+): Promise<void> {
+  try {
+    const response: AxiosResponse<void> = await axiosInstance.put(`/api/v1/debts${id}`, {
+      amount: amount,
+      creditorName: creditorName,
+      status: status
+    });
+    return response.data;
+  } catch (error) {
+    message.error('Server error. Please try again in a couple of minutes.');
+    throw error;
+  }
+}

@@ -1,22 +1,47 @@
 import './debts.scss';
-import TransactionsList from 'components/transaction-list';
 import { useEffect, useState } from 'react';
-import { Debt, TransactionListItem } from 'models';
+import { Debt } from 'models';
 import NoResults from 'components/no-results';
 import LoadingSpinner from 'components/loading-spinner';
 import { Button, Pagination, message } from 'antd';
 import mockService from 'services/mockService';
 import { PlusOutlined } from '@ant-design/icons';
-import { deleteDebt, getDebtsData } from 'services/debtsService';
+import { deleteDebt, editDebt, getDebtsData } from 'services/debtsService';
 import AddDebtModal from 'components/add-debt-modal';
+import DebtsList from 'components/debt-list';
 
 const DebtsPage = () => {
   const PAGE_SIZE = 15;
-  const [transactions, setTransactions] = useState<TransactionListItem[]>([]);
+  const [debts, setDebts] = useState<Debt[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [pagination, setPagination] = useState({ current: 1, pageSize: PAGE_SIZE, total: 0 });
   const [isPaginationChange, setIsPaginationChange] = useState<boolean>(true);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
+  const handleEditDebt = async (
+    id: string,
+    amount: number,
+    creditorName: string,
+    status: string
+  ) => {
+    try {
+      await editDebt(id, amount, creditorName, status);
+      message.success('Debt was edited successfully');
+      handlePaginationChange(pagination.current);
+    } catch (error) {
+      message.error('Failed to edit debt. Please try again later.');
+    }
+  };
+
+  const handleDeleteDebt = async (id: string) => {
+    try {
+      await deleteDebt(id);
+      message.success('Debt was deleted successfully');
+      handlePaginationChange(pagination.current);
+    } catch (error) {
+      message.error('Failed to delete debt. Please try again later.');
+    }
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -34,22 +59,16 @@ const DebtsPage = () => {
           pagination.current,
           pagination.pageSize
         );
-        const debts: TransactionListItem[] = debtsResponse.items.map((debt: Debt) => ({
-          name: `Debt from ${debt.creditorName} - ${debt.status}`,
-          date: debt.setDate.substring(0, 10),
-          amount: debt.amount,
-          id: debt.id
-        }));
 
-        setTransactions(debts);
+        setDebts(debtsResponse.items);
         setPagination((prevPagination) => ({
           ...prevPagination,
           total: debtsResponse.totalCount
         }));
       } catch (error) {
         console.error('Error fetching data:', error);
-        const mockTransactions = mockService.generateMockIncomes(pagination.pageSize);
-        setTransactions(mockTransactions);
+        const mockTransactions = mockService.generateMockDebts(pagination.pageSize);
+        setDebts(mockTransactions);
         setPagination((prevPagination) => ({
           ...prevPagination,
           total: 200
@@ -74,17 +93,6 @@ const DebtsPage = () => {
     setIsModalVisible(true);
   };
 
-  const handleDeleteDebt = (id: string) => {
-    try {
-      deleteDebt(id);
-    } catch (error) {
-      message.error('Failed to delete debt. Please try again later.');
-    } finally {
-      handlePaginationChange(pagination.current);
-      message.success('Debt was deleted successfully');
-    }
-  };
-
   const handleModalClose = () => {
     setIsModalVisible(false);
     handlePaginationChange(pagination.current);
@@ -102,15 +110,10 @@ const DebtsPage = () => {
         <div className="debts--main--div">
           {loading ? (
             <LoadingSpinner />
-          ) : transactions.length > 0 ? (
+          ) : debts.length > 0 ? (
             <>
               <div style={{ height: '95%' }}>
-                <TransactionsList
-                  transactions={transactions}
-                  showTitle={false}
-                  addDeletion={true}
-                  onTransactionDelete={(tran) => handleDeleteDebt(String(tran.id))}
-                />
+                <DebtsList debts={debts} onDelete={handleDeleteDebt} onEdit={handleEditDebt} />
               </div>
               <Pagination
                 current={pagination.current}

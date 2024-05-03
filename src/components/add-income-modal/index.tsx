@@ -50,7 +50,7 @@ const AddIncomeModal: React.FC<AddIncomeModalProps> = ({ visible, onClose }) => 
           <DatePicker style={{ width: '100%' }} />
         </Form.Item>
         <Form.Item name="source" label="Income source">
-          <Input.TextArea rows={4} />
+          <Input.TextArea rows={1} />
         </Form.Item>
         <Form.Item>
           <Button htmlType="button" onClick={onClose}>

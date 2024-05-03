@@ -38,7 +38,7 @@ const AddDebtModal: React.FC<AddDebtModalProps> = ({ visible, onClose }) => {
           name="creditorName"
           label="Creditor Name"
           rules={[{ required: true, message: 'Please enter creditor name' }]}>
-          <Input.TextArea rows={2} />
+          <Input.TextArea rows={1} />
         </Form.Item>
         <Form.Item>
           <Button htmlType="button" onClick={onClose}>

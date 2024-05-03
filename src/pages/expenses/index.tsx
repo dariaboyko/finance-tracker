@@ -93,14 +93,13 @@ const ExpensesPage = () => {
     setIsModalVisible(true);
   };
 
-  const handleDeleteExpense = (id: string) => {
+  const handleDeleteExpense = async (id: string) => {
     try {
-      deleteExpense(id);
+      await deleteExpense(id);
+      message.success('Expense was deleted successfully');
+      handlePaginationChange(pagination.current);
     } catch (error) {
       message.error('Failed to delete expense. Please try again later.');
-    } finally {
-      handlePaginationChange(pagination.current);
-      message.success('Expense was deleted successfully');
     }
   };
 
