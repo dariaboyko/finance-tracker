@@ -26,12 +26,13 @@ export async function getSubscriptions(
   }
 }
 
-export async function buyPremiumSubscription(): Promise<void> {
+export async function buyPremiumSubscription(userId: string, setDate: string): Promise<void> {
   try {
-    await axiosInstance.put(`/api/v1/subscription`, {
-      params: {
-        transactionId: generateGuid()
-      }
+    await axiosInstance.post(`/api/v1/subscription/` + generateGuid(), {
+      status: `Completed`,
+      amount: 100,
+      userId: userId,
+      setDate: setDate
     });
   } catch (error) {
     message.error('Server error. Please try again in a couple of minutes.');
