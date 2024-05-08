@@ -11,6 +11,11 @@
         align-items: center;
         justify-content: space-between;
         padding-right: 425px;
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
     }
 
     &--main {

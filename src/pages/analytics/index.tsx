@@ -37,7 +37,9 @@ const AnalyticsPage = () => {
       setLoading(true);
       try {
         const today = new Date();
-        const toDate = today.toISOString().split('T')[0];
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const toDate = tomorrow.toISOString().split('T')[0];
         const fromDate = new Date(today);
         fromDate.setDate(today.getDate() - 29);
         const formattedFromDate = fromDate.toISOString().split('T')[0];

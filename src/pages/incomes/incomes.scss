@@ -10,11 +10,11 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding-right: 425px;
     }
 
     &--main {
         display: flex;
+        flex-direction: column;
         gap: 25px;
         height: calc(100% - 45px);
 

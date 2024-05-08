@@ -24,7 +24,9 @@ const IncomesPage = () => {
       setLoading(true);
       try {
         const today = new Date();
-        const toDate = today.toISOString().split('T')[0];
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const toDate = tomorrow.toISOString().split('T')[0];
         const fromDate = new Date(today);
         fromDate.setDate(today.getDate() - 29);
         const formattedFromDate = fromDate.toISOString().split('T')[0];
@@ -37,7 +39,7 @@ const IncomesPage = () => {
         );
         const incomes: TransactionListItem[] = incomesResponse.items.map(
           (income: Income, index) => ({
-            name: `Income ${index + 1}`,
+            name: income.source,
             date: income.setDate.substring(0, 10),
             amount: income.amount,
             id: income.id
@@ -101,41 +103,36 @@ const IncomesPage = () => {
         </Button>
       </header>
       <div className="incomes--main">
-        <div className="incomes--main--left">
-          <div className="incomes--main--div">
-            {loading ? (
-              <LoadingSpinner />
-            ) : transactions.length > 0 ? (
-              <>
-                <div style={{ height: '95%' }}>
-                  <TransactionsList
-                    transactions={transactions}
-                    showTitle={false}
-                    addDeletion={true}
-                    onTransactionDelete={(tran) => handleDeleteIncome(String(tran.id))}
-                  />
-                </div>
-                <Pagination
-                  current={pagination.current}
-                  pageSize={pagination.pageSize}
-                  onChange={handlePaginationChange}
-                  total={pagination.total}
-                />
-              </>
-            ) : (
-              <NoResults />
-            )}
-          </div>
+        <div className="incomes--main--div" style={{ maxHeight: '110px' }}>
+          <TotalBalanceCard
+            title="Total Income"
+            balance={transactions.reduce((total, transaction) => total + transaction.amount, 0)}
+            isIncrease={true}
+          />
         </div>
-        <div className="incomes--main--right">
-          <div className="incomes--main--div" style={{ maxHeight: '110px' }}>
-            <TotalBalanceCard
-              title="Total Income"
-              balance={transactions.reduce((total, transaction) => total + transaction.amount, 0)}
-              isIncrease={true}
-            />
-          </div>
-          <div className="incomes--main--div"></div>
+        <div className="incomes--main--div">
+          {loading ? (
+            <LoadingSpinner />
+          ) : transactions.length > 0 ? (
+            <>
+              <div style={{ height: '95%' }}>
+                <TransactionsList
+                  transactions={transactions}
+                  showTitle={false}
+                  addDeletion={true}
+                  onTransactionDelete={(tran) => handleDeleteIncome(String(tran.id))}
+                />
+              </div>
+              <Pagination
+                current={pagination.current}
+                pageSize={pagination.pageSize}
+                onChange={handlePaginationChange}
+                total={pagination.total}
+              />
+            </>
+          ) : (
+            <NoResults />
+          )}
         </div>
       </div>
       <AddIncomeModal visible={isModalVisible} onClose={handleModalClose} />

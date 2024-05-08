@@ -15,6 +15,7 @@ import ExpensesPieChart from 'components/expenses-pie';
 import { Button, Pagination, message } from 'antd';
 import AddExpenseModal from 'components/add-expense-modal';
 import { PlusOutlined } from '@ant-design/icons';
+import AddExpenseCategoryModal from 'components/add-category-modal';
 
 const ExpensesPage = () => {
   const PAGE_SIZE = 15;
@@ -25,13 +26,16 @@ const ExpensesPage = () => {
   const [isPaginationChange, setIsPaginationChange] = useState<boolean>(true);
   const [pagination, setPagination] = useState({ current: 1, pageSize: PAGE_SIZE, total: 0 });
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isCatModalVisible, setIsCatModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
       try {
         const today = new Date();
-        const toDate = today.toISOString().split('T')[0];
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const toDate = tomorrow.toISOString().split('T')[0];
         const fromDate = new Date(today);
         fromDate.setDate(today.getDate() - 29);
         const formattedFromDate = fromDate.toISOString().split('T')[0];
@@ -49,7 +53,7 @@ const ExpensesPage = () => {
         setCategories(expensesCategoriesResponse.items);
         const expenses: TransactionListItem[] = expensesResponse.items.map(
           (expense: Expense, index) => ({
-            name: `Expense ${index + 1}`,
+            name: expense.description,
             date: expense.setDate.substring(0, 10),
             amount: expense.amount * -1,
             id: expense.id
@@ -93,6 +97,10 @@ const ExpensesPage = () => {
     setIsModalVisible(true);
   };
 
+  const handleAddCategory = () => {
+    setIsCatModalVisible(true);
+  };
+
   const handleDeleteExpense = async (id: string) => {
     try {
       await deleteExpense(id);
@@ -108,13 +116,22 @@ const ExpensesPage = () => {
     handlePaginationChange(pagination.current);
   };
 
+  const handleCatModalClose = () => {
+    setIsCatModalVisible(false);
+  };
+
   return (
     <section className="expenses">
       <header className="expenses--title">
-        Expenses{' '}
-        <Button type="primary" onClick={handleAddExpense}>
-          <PlusOutlined /> Add Expense
-        </Button>
+        <span>Expenses</span>
+        <div className="buttons">
+          <Button type="dashed" onClick={handleAddCategory}>
+            <PlusOutlined /> Add Category
+          </Button>
+          <Button type="primary" onClick={handleAddExpense}>
+            <PlusOutlined /> Add Expense
+          </Button>
+        </div>
       </header>
       <div className="expenses--main">
         <div className="expenses--main--left">
@@ -163,6 +180,7 @@ const ExpensesPage = () => {
         </div>
       </div>
       <AddExpenseModal visible={isModalVisible} onClose={handleModalClose} />
+      <AddExpenseCategoryModal visible={isCatModalVisible} onClose={handleCatModalClose} />
     </section>
   );
 };

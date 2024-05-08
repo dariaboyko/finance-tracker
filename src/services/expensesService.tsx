@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { AxiosResponse } from 'axios';
-import { Expense, ExpensesCategoriesResponse, ExpensesResponse } from 'models';
+import { Expense, ExpenseCategory, ExpensesCategoriesResponse, ExpensesResponse } from 'models';
 import axiosInstance from 'utils/axiousInstance';
 
 export async function getExpensesData(
@@ -73,6 +73,21 @@ export async function deleteExpense(id: string): Promise<void> {
         expenseId: id
       }
     });
+    return response.data;
+  } catch (error) {
+    message.error('Server error. Please try again in a couple of minutes.');
+    throw error;
+  }
+}
+
+export async function addExpenseCategory(categoryName: string): Promise<ExpenseCategory> {
+  try {
+    const response: AxiosResponse<ExpenseCategory> = await axiosInstance.post(
+      `/api/v1/expenses-categories`,
+      {
+        categoryName: categoryName
+      }
+    );
     return response.data;
   } catch (error) {
     message.error('Server error. Please try again in a couple of minutes.');
