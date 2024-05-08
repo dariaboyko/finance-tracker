@@ -58,7 +58,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ visible, onClose }) =
           name="amount"
           label="Amount"
           rules={[{ required: true, message: 'Please enter amount' }]}>
-          <InputNumber style={{ width: '100%' }} />
+          <Input.TextArea rows={1} />
         </Form.Item>
         <Form.Item
           name="setDate"
