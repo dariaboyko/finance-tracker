@@ -31,7 +31,10 @@ const AccountPage = () => {
   const updateSubscription = async () => {
     setLoading(true);
     try {
-      await buyPremiumSubscription();
+      const today = new Date();
+      const formattedFromDate = today.toISOString().split('T')[0];
+
+      await buyPremiumSubscription(getUserId(), formattedFromDate);
       const data = await getSubscriptions(getUserId(), 1, 10);
       setSubscriptions(data.items);
       setLoading(false);
