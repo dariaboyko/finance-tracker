@@ -3,9 +3,11 @@ import image from '../../assets/images/home.png';
 import { Button } from 'antd';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { getUserName } from 'utils/tokenService';
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const name = getUserName();
 
   const handleAnalyticsClick = () => {
     navigate('/analytics');
@@ -16,7 +18,7 @@ const HomePage = () => {
       <div className="home--main">
         <img src={image} className="home--image" />
         <div className="home--text">
-          <header className="home--subtitle">Welcome, username!</header>
+          <header className="home--subtitle">Welcome, {name}!</header>
           <div className="home--title">
             Track your spending, save more, and achieve your financial goals effortlessly.
           </div>
