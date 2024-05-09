@@ -47,7 +47,7 @@ const AnalyticsPage = () => {
         const expensesResponse = await getExpensesData(formattedFromDate, toDate, 1, 30);
         const expenses: TransactionListItem[] = expensesResponse.items.map(
           (expense: Expense, index) => ({
-            name: `Expense ${index + 1}`,
+            name: expense.description,
             date: expense.setDate.substring(0, 10),
             amount: -1 * expense.amount
           })
@@ -56,7 +56,7 @@ const AnalyticsPage = () => {
         const incomesResponse = await getIncomesData(formattedFromDate, toDate, 1, 30);
         const incomes: TransactionListItem[] = incomesResponse.items.map(
           (income: Income, index) => ({
-            name: `Income ${index + 1}`,
+            name: income.source,
             date: income.setDate.substring(0, 10),
             amount: income.amount
           })

@@ -1,6 +1,6 @@
-import { message, Modal, Form, InputNumber, Button } from 'antd';
+import { message, Modal, Form, Input, Button } from 'antd';
 import { useState } from 'react';
-import { addExpense } from 'services/expensesService';
+import { addExpenseCategory } from 'services/expensesService';
 import PropTypes from 'prop-types';
 import './add-category-modal.scss';
 
@@ -15,11 +15,7 @@ const AddExpenseCategoryModal: React.FC<AddCategoryModalProps> = ({ visible, onC
   const handleAddCategory = async (values: any) => {
     setLoading(true);
     try {
-      const selectedDate = new Date(values.setDate);
-      const utcDate = new Date(
-        Date.UTC(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate())
-      );
-      await addExpense(values.categoryId, values.amount, utcDate.toISOString(), values.description);
+      await addExpenseCategory(values.name);
       message.success('Category was added successfully');
       onClose();
     } catch (error) {
@@ -40,8 +36,8 @@ const AddExpenseCategoryModal: React.FC<AddCategoryModalProps> = ({ visible, onC
         <Form.Item
           name="name"
           label="Name"
-          rules={[{ required: true, message: 'Please enter amount' }]}>
-          <InputNumber style={{ width: '100%' }} />
+          rules={[{ required: true, message: 'Please enter name' }]}>
+          <Input.TextArea rows={1} />
         </Form.Item>
         <Form.Item>
           <Button htmlType="button" onClick={onClose} style={{ marginRight: 8 }}>

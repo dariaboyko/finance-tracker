@@ -59,7 +59,7 @@ export async function editDebt(
   status: string
 ): Promise<void> {
   try {
-    const response: AxiosResponse<void> = await axiosInstance.put(`/api/v1/debts${id}`, {
+    const response: AxiosResponse<void> = await axiosInstance.put(`/api/v1/debts/${id}`, {
       amount: amount,
       creditorName: creditorName,
       status: status
