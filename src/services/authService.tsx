@@ -10,7 +10,7 @@ import {
   setUserEmail
 } from 'utils/tokenService';
 import { BASE_API_URL } from 'apiConfig';
-import { LoginRequest, LoginResponse, ErrorDTO } from 'models';
+import { LoginRequest, LoginResponse, SignUpRequest, ErrorDTO } from 'models';
 import { message } from 'antd';
 import { jwtDecode } from 'jwt-decode';
 
@@ -86,7 +86,7 @@ export const refreshTokenFunc = async (): Promise<void> => {
   }
 };
 
-export const signup = async (credentials: LoginRequest): Promise<void> => {
+export const signup = async (credentials: SignUpRequest): Promise<void> => {
   try {
     const response = await axios.post<LoginResponse>(
       `${BASE_API_URL}/api/auth/register`,
@@ -97,6 +97,19 @@ export const signup = async (credentials: LoginRequest): Promise<void> => {
 
     setToken(token);
     setRefreshToken(refreshToken);
+    const decodedToken = decodeJwt(token.replace('Bearer ', ''));
+    if (decodedToken) {
+      const { exp, nameidentifier, name, email } = decodedToken;
+      if (exp) {
+        const timeUntilExpiration = exp * 1000 - Date.now();
+        tokenExpirationTimer = setTimeout(() => refreshTokenFunc(), timeUntilExpiration - 60000);
+      }
+      if (nameidentifier && name && email) {
+        setUserName(name);
+        setUserId(nameidentifier);
+        setUserEmail(email);
+      }
+    }
   } catch (error) {
     const axiosError = error as AxiosError;
 
