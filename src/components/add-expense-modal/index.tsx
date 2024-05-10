@@ -17,7 +17,7 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ visible, onClose }) =
 
   useEffect(() => {
     fetchCategories();
-  }, []);
+  }, [visible]);
 
   const fetchCategories = async () => {
     try {
