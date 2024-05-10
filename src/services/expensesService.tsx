@@ -68,11 +68,7 @@ export async function getExpensesCategoriesData(
 
 export async function deleteExpense(id: string): Promise<void> {
   try {
-    const response: AxiosResponse<void> = await axiosInstance.delete(`/api/v1/expenses`, {
-      params: {
-        expenseId: id
-      }
-    });
+    const response: AxiosResponse<void> = await axiosInstance.delete(`/api/v1/expenses/${id}`, {});
     return response.data;
   } catch (error) {
     message.error('Server error. Please try again in a couple of minutes.');

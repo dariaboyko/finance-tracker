@@ -25,7 +25,7 @@ const IncomesPage = () => {
       try {
         const today = new Date();
         const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setDate(tomorrow.getDate() + 2);
         const toDate = tomorrow.toISOString().split('T')[0];
         const fromDate = new Date(today);
         fromDate.setDate(today.getDate() - 29);
