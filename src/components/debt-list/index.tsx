@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './debt-list.scss';
 import { Debt } from 'models';
-import { Button, Modal, Form, Input, InputNumber } from 'antd';
+import { Button, Modal, Form, Input, InputNumber, Select } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 interface DebtsListProps {
@@ -14,12 +14,14 @@ const DebtsList: React.FC<DebtsListProps> = ({ debts, onDelete, onEdit }) => {
   const [editModalVisible, setEditModalVisible] = useState<boolean>(false);
   const [selectedDebt, setSelectedDebt] = useState<Debt | null>(null);
   const [form] = Form.useForm();
+  const [statuses] = useState(['Active', 'Closed']);
 
   const handleEdit = (debt: Debt) => {
     setSelectedDebt(debt);
     form.setFieldsValue({
       amount: debt.amount,
-      creditorName: debt.creditorName
+      creditorName: debt.creditorName,
+      status: debt.status
     });
     setEditModalVisible(true);
   };
@@ -73,7 +75,7 @@ const DebtsList: React.FC<DebtsListProps> = ({ debts, onDelete, onEdit }) => {
             onClick={() => {
               form.validateFields().then((values) => {
                 if (selectedDebt) {
-                  onEdit(selectedDebt.id, values.amount, values.creditorName, selectedDebt.status);
+                  onEdit(selectedDebt.id, values.amount, values.creditorName, values.status);
                   setEditModalVisible(false);
                 }
               });
@@ -87,6 +89,15 @@ const DebtsList: React.FC<DebtsListProps> = ({ debts, onDelete, onEdit }) => {
             label="Amount"
             rules={[{ required: true, message: 'Please enter amount' }]}>
             <InputNumber style={{ width: '100%' }} />
+          </Form.Item>
+          <Form.Item name="status" label="Status">
+            <Select placeholder="Select a status">
+              {statuses.map((status) => (
+                <Select.Option key={status} value={status}>
+                  {status}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item
             name="creditorName"
