@@ -11,6 +11,9 @@ import LoadingSpinner from 'components/loading-spinner';
 import { getExpensesData } from 'services/expensesService';
 import { getIncomesData } from 'services/incomesService';
 import mockService from 'services/mockService';
+import { Button } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
+import DownloadReportModal from 'components/download-report-modal';
 
 const colors = ['#389e0d', '#cf1322'];
 const MockIncomeExpenseData = [
@@ -31,6 +34,7 @@ const MockIncomeExpenseData = [
 const AnalyticsPage = () => {
   const [transactions, setTransactions] = useState<TransactionListItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -78,9 +82,22 @@ const AnalyticsPage = () => {
     fetchData();
   }, []);
 
+  const handleDownloadReport = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <section className="analytics">
-      <header className="analytics--title">Analytics</header>
+      <header className="analytics--title">
+        <span>Analytics</span>
+        <Button type="primary" onClick={handleDownloadReport}>
+          <DownloadOutlined /> Download Report
+        </Button>
+      </header>
       <div className="analytics--main">
         <div className="analytics--main--left">
           <div className="analytics--main--div" style={{ maxHeight: '300px' }}>
@@ -173,6 +190,7 @@ const AnalyticsPage = () => {
           </div>
         </div>
       </div>
+      <DownloadReportModal visible={isModalVisible} onClose={handleModalClose} />
     </section>
   );
 };
