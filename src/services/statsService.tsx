@@ -27,7 +27,7 @@ export async function getAccountStatement(fromDate: string, toDate: string): Pro
           fromDate: fromDate,
           toDate: toDate
         },
-        responseType: 'blob' // Указываем тип ответа как blob
+        responseType: 'blob'
       }
     );
     return response;
