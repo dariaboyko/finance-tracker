@@ -1,5 +1,6 @@
 import { message, Modal, Form, DatePicker, Input, Button } from 'antd';
 import { useState } from 'react';
+import { getAccountStatement } from 'services/statsService';
 import PropTypes from 'prop-types';
 import './download-report-modal.scss';
 
@@ -14,6 +15,17 @@ const DownloadReportModal: React.FC<DownloadReportModalProps> = ({ visible, onCl
   const handleDownloadReport = async (values: any) => {
     setLoading(true);
     try {
+      const response = await getAccountStatement(values.fromDate, values.toDate);
+
+      const downloadUrl = window.URL.createObjectURL(response.data);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = 'account-statement.pdf';
+      document.body.appendChild(link);
+      link.click();
+
+      window.URL.revokeObjectURL(downloadUrl);
+
       message.success('Report downloaded successfully');
       onClose();
     } catch (error) {

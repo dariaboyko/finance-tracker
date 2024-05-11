@@ -17,3 +17,22 @@ export async function getStatisticData(fromDate: string, toDate: string): Promis
     throw error;
   }
 }
+
+export async function getAccountStatement(fromDate: string, toDate: string): Promise<any> {
+  try {
+    const response: AxiosResponse<Blob> = await axiosInstance.get(
+      `/api/v1/statistic/account-statement`,
+      {
+        params: {
+          fromDate: fromDate,
+          toDate: toDate
+        },
+        responseType: 'blob'
+      }
+    );
+    return response;
+  } catch (error) {
+    message.error('Server error. Please try again in a couple of minutes.');
+    throw error;
+  }
+}
