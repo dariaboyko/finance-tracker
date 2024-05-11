@@ -90,3 +90,16 @@ export async function addExpenseCategory(categoryName: string): Promise<ExpenseC
     throw error;
   }
 }
+
+export async function deleteExpenseCategory(id: string): Promise<void> {
+  try {
+    const response: AxiosResponse<void> = await axiosInstance.delete(
+      `/api/v1/expenses-categories/${id}`,
+      {}
+    );
+    return response.data;
+  } catch (error) {
+    message.error('Server error. Please try again in a couple of minutes.');
+    throw error;
+  }
+}
