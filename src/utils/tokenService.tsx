@@ -51,7 +51,7 @@ export const getUserEmail = (): string | undefined => {
   return Cookies.get(USER_EMAIL_KEY);
 };
 
-export const setUserRole = (role: string): undefined => {
+export const setUserRole = (role: string): void => {
   Cookies.set(USER_ROLE_KEY, role);
 };
 
