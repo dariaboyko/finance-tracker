@@ -7,7 +7,8 @@ import {
   getRefreshToken,
   setUserName,
   setUserId,
-  setUserEmail
+  setUserEmail,
+  setUserRole
 } from 'utils/tokenService';
 import { BASE_API_URL } from 'apiConfig';
 import { LoginRequest, LoginResponse, SignUpRequest, ErrorDTO } from 'models';
@@ -28,15 +29,16 @@ export const login = async (credentials: LoginRequest): Promise<void> => {
     setRefreshToken(refreshToken);
     const decodedToken = decodeJwt(token.replace('Bearer ', ''));
     if (decodedToken) {
-      const { exp, nameidentifier, name, email } = decodedToken;
+      const { exp, nameidentifier, name, email, role } = decodedToken;
       if (exp) {
         const timeUntilExpiration = exp * 1000 - Date.now();
         tokenExpirationTimer = setTimeout(() => refreshTokenFunc(), timeUntilExpiration - 60000);
       }
-      if (nameidentifier && name && email) {
+      if (nameidentifier && name && email && role) {
         setUserName(name);
         setUserId(nameidentifier);
         setUserEmail(email);
+        setUserRole(role);
       }
     }
   } catch (error) {
@@ -129,7 +131,7 @@ export const logout = () => {
 
 const decodeJwt = (
   token: string
-): { exp: number; nameidentifier: string; name: string; email: string } | null => {
+): { exp: number; nameidentifier: string; name: string; email: string; role: string } | null => {
   try {
     const decoded = jwtDecode(token) as any;
     return {
@@ -137,7 +139,8 @@ const decodeJwt = (
       nameidentifier:
         decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
       name: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
-      email: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress']
+      email: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
+      role: decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
     };
   } catch (error) {
     return null;
