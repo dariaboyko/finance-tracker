@@ -27,9 +27,7 @@ const SubscriptionsList: React.FC<SubscriptionsListProps> = ({
                 {sub.setDate.substring(0, 10)} - {sub.endDate.substring(0, 10)}
               </div>
             </div>
-            <div className="subscriptions--list--amount">
-              {sub.status === 1 ? 'Active' : 'Inactive'}
-            </div>
+            <div className="subscriptions--list--amount">{sub.status}</div>
           </li>
         ))}
       </ul>

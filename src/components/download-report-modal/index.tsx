@@ -20,7 +20,7 @@ const DownloadReportModal: React.FC<DownloadReportModalProps> = ({ visible, onCl
       const downloadUrl = window.URL.createObjectURL(response.data);
       const link = document.createElement('a');
       link.href = downloadUrl;
-      link.download = 'account-statement.pdf';
+      link.download = 'account-statements.pdf';
       document.body.appendChild(link);
       link.click();
 
@@ -29,7 +29,7 @@ const DownloadReportModal: React.FC<DownloadReportModalProps> = ({ visible, onCl
       message.success('Report downloaded successfully');
       onClose();
     } catch (error) {
-      message.error('Failed to download report. Please try again later.');
+      message.error('Failed to download report. Please try again later.'); 
     } finally {
       setLoading(false);
     }
