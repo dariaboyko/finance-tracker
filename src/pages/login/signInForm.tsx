@@ -14,12 +14,14 @@ export const SignInForm: React.FC<LogInFormProps> = ({ onSignUpClick }) => {
     setLoading(true);
 
     try {
-      login(values);
-    } finally {
+      await login(values);
       setLoading(false);
       navigate('/');
+    } catch (error) {
+      console.error(error);
     }
   };
+
   return (
     <Form
       onFinish={onFinish}
