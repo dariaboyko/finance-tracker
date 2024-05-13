@@ -40,11 +40,7 @@ export async function addDebt(amount: number, creditorName: string): Promise<Deb
 
 export async function deleteDebt(id: string): Promise<void> {
   try {
-    const response: AxiosResponse<void> = await axiosInstance.delete(`/api/v1/debts`, {
-      params: {
-        debtId: id
-      }
-    });
+    const response: AxiosResponse<void> = await axiosInstance.delete(`/api/v1/debts/${id}`, {});
     return response.data;
   } catch (error) {
     message.error('Server error. Please try again in a couple of minutes.');
