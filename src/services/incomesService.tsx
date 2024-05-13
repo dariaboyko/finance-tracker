@@ -41,7 +41,7 @@ export async function addIncome(amount: number, setDate: string, source: string)
 
 export async function deleteIncome(id: string): Promise<void> {
   try {
-    const response: AxiosResponse<void> = await axiosInstance.delete(`/api/v1/incomes${id}`, {});
+    const response: AxiosResponse<void> = await axiosInstance.delete(`/api/v1/incomes/${id}`, {});
     return response.data;
   } catch (error) {
     message.error('Server error. Please try again in a couple of minutes.');
