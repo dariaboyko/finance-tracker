@@ -13,8 +13,9 @@ import {
 } from 'services/expensesService';
 import ExpensesPieChart from 'components/expenses-pie';
 import { Button, Pagination, message } from 'antd';
+import RemoveExpenseCategoryModal from 'components/remove-category-model';
 import AddExpenseModal from 'components/add-expense-modal';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import AddExpenseCategoryModal from 'components/add-category-modal';
 
 const ExpensesPage = () => {
@@ -27,6 +28,7 @@ const ExpensesPage = () => {
   const [pagination, setPagination] = useState({ current: 1, pageSize: PAGE_SIZE, total: 0 });
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isCatModalVisible, setIsCatModalVisible] = useState<boolean>(false);
+  const [isRemoveModalVisible, setIsRemoveModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -101,6 +103,10 @@ const ExpensesPage = () => {
     setIsCatModalVisible(true);
   };
 
+  const handleRemoveCategory = () => {
+    setIsRemoveModalVisible(true);
+  };
+
   const handleDeleteExpense = async (id: string) => {
     try {
       await deleteExpense(id);
@@ -120,11 +126,18 @@ const ExpensesPage = () => {
     setIsCatModalVisible(false);
   };
 
+  const handleRemoveModalClose = () => {
+    setIsRemoveModalVisible(false);
+  };
+
   return (
     <section className="expenses">
       <header className="expenses--title">
         <span>Expenses</span>
         <div className="buttons">
+          <Button type="dashed" onClick={handleRemoveCategory}>
+            <MinusOutlined /> Remove Category
+          </Button>
           <Button type="dashed" onClick={handleAddCategory}>
             <PlusOutlined /> Add Category
           </Button>
@@ -181,6 +194,7 @@ const ExpensesPage = () => {
       </div>
       <AddExpenseModal visible={isModalVisible} onClose={handleModalClose} />
       <AddExpenseCategoryModal visible={isCatModalVisible} onClose={handleCatModalClose} />
+      <RemoveExpenseCategoryModal visible={isRemoveModalVisible} onClose={handleRemoveModalClose} />
     </section>
   );
 };
