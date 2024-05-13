@@ -124,10 +124,12 @@ const ExpensesPage = () => {
 
   const handleCatModalClose = () => {
     setIsCatModalVisible(false);
+    handlePaginationChange(pagination.current);
   };
 
   const handleRemoveModalClose = () => {
     setIsRemoveModalVisible(false);
+    handlePaginationChange(pagination.current);
   };
 
   return (
