@@ -16,6 +16,10 @@ export const getToken = (): string | undefined => {
 };
 
 export const removeToken = (): void => {
+  Cookies.remove(USER_ROLE_KEY, { path: '/' });
+};
+
+export const removeUserRole = (): void => {
   Cookies.remove(TOKEN_KEY, { path: '/' });
 };
 

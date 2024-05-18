@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { getAccountStatement } from 'services/statsService';
 import PropTypes from 'prop-types';
 import './download-report-modal.scss';
+import { getUserRole } from 'utils/tokenService';
 
 interface DownloadReportModalProps {
   visible: boolean;
@@ -13,6 +14,13 @@ const DownloadReportModal: React.FC<DownloadReportModalProps> = ({ visible, onCl
   const [loading, setLoading] = useState(false);
 
   const handleDownloadReport = async (values: any) => {
+    const userRole = getUserRole();
+    console.log(userRole);
+    if (userRole !== 'UserPremium') {
+      message.error('You do not have permission for this action. Please buy premium');
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await getAccountStatement(values.fromDate, values.toDate);
@@ -29,7 +37,7 @@ const DownloadReportModal: React.FC<DownloadReportModalProps> = ({ visible, onCl
       message.success('Report downloaded successfully');
       onClose();
     } catch (error) {
-      message.error('Failed to download report. Please try again later.'); 
+      message.error('Failed to download report. Please try again later.');
     } finally {
       setLoading(false);
     }
