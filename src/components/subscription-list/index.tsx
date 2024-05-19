@@ -1,28 +1,17 @@
 import React from 'react';
 import './subscription-list.scss';
 import { Subscription } from 'models';
-import { Button } from 'antd';
 import NoResults from 'components/no-results';
-import { getUserRole } from 'utils/tokenService';
 
 interface SubscriptionsListProps {
   subscriptions: Subscription[];
-  renewSubscription: () => void;
 }
 
-const SubscriptionsList: React.FC<SubscriptionsListProps> = ({
-  subscriptions,
-  renewSubscription
-}) => {
+const SubscriptionsList: React.FC<SubscriptionsListProps> = ({ subscriptions }) => {
   return (
     <div className="subscriptions">
       <div className="subscriptions--title">
         <span>Subscriptions</span>
-        {getUserRole() === `UserPremium` ? (
-          ''
-        ) : (
-          <Button onClick={() => renewSubscription()}>Buy Premium</Button>
-        )}
       </div>
       <ul className="subscriptions--list">
         {subscriptions.length > 0 ? (

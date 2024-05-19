@@ -26,9 +26,13 @@ export async function getSubscriptions(
   }
 }
 
-export async function buyPremiumSubscription(userId: string, setDate: string): Promise<void> {
+export async function buyPremiumSubscription(
+  userId: string,
+  setDate: string,
+  guid: string
+): Promise<void> {
   try {
-    await axiosInstance.post(`/api/v1/subscription/` + generateGuid(), {
+    await axiosInstance.post(`/api/v1/subscription/` + guid, {
       status: `Completed`,
       amount: 100,
       userId: userId,
