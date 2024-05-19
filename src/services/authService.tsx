@@ -4,11 +4,13 @@ import {
   setRefreshToken,
   removeToken,
   removeRefreshToken,
+  removeUserRole,
   getRefreshToken,
   setUserName,
   setUserId,
   setUserEmail,
-  setUserRole
+  setUserRole,
+  getToken
 } from 'utils/tokenService';
 import { BASE_API_URL } from 'apiConfig';
 import { LoginRequest, LoginResponse, SignUpRequest, ErrorDTO } from 'models';
@@ -70,6 +72,7 @@ export const login = async (credentials: LoginRequest): Promise<void> => {
 export const refreshTokenFunc = async (): Promise<void> => {
   try {
     const response = await axios.post<LoginResponse>(`${BASE_API_URL}/api/auth/refresh-token`, {
+      token: getToken(),
       refreshToken: getRefreshToken()
     });
     const { token, refreshToken } = response.data;
@@ -77,10 +80,16 @@ export const refreshTokenFunc = async (): Promise<void> => {
     setRefreshToken(refreshToken);
     const decodedToken = decodeJwt(token);
     if (decodedToken) {
-      const { exp } = decodedToken;
+      const { exp, nameidentifier, name, email, role } = decodedToken;
       if (exp) {
         const timeUntilExpiration = exp * 1000 - Date.now();
         tokenExpirationTimer = setTimeout(() => refreshTokenFunc(), timeUntilExpiration - 60000);
+      }
+      if (nameidentifier && name && email && role) {
+        setUserName(name);
+        setUserId(nameidentifier);
+        setUserEmail(email);
+        setUserRole(role);
       }
     }
   } catch (error) {
@@ -101,15 +110,16 @@ export const signup = async (credentials: SignUpRequest): Promise<void> => {
     setRefreshToken(refreshToken);
     const decodedToken = decodeJwt(token.replace('Bearer ', ''));
     if (decodedToken) {
-      const { exp, nameidentifier, name, email } = decodedToken;
+      const { exp, nameidentifier, name, email, role } = decodedToken;
       if (exp) {
         const timeUntilExpiration = exp * 1000 - Date.now();
         tokenExpirationTimer = setTimeout(() => refreshTokenFunc(), timeUntilExpiration - 60000);
       }
-      if (nameidentifier && name && email) {
+      if (nameidentifier && name && email && role) {
         setUserName(name);
         setUserId(nameidentifier);
         setUserEmail(email);
+        setUserRole(role);
       }
     }
   } catch (error) {

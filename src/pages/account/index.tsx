@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import './account.scss';
 import { Subscription } from 'models';
 import { getSubscriptions, buyPremiumSubscription } from 'services/userService';
+import { refreshTokenFunc } from 'services/authService';
 import mockService from 'services/mockService';
 import SubscriptionsList from 'components/subscription-list';
 import LoadingSpinner from 'components/loading-spinner';
-import NoResults from 'components/no-results';
 import { getUserId } from 'utils/tokenService';
 
 const AccountPage = () => {
@@ -30,6 +30,7 @@ const AccountPage = () => {
 
   const updateSubscription = async () => {
     setLoading(true);
+
     try {
       const today = new Date();
       const formattedFromDate = today.toISOString().split('T')[0];
@@ -37,6 +38,7 @@ const AccountPage = () => {
       await buyPremiumSubscription(getUserId(), formattedFromDate);
       const data = await getSubscriptions(getUserId(), 1, 10);
       setSubscriptions(data.items);
+      refreshTokenFunc();
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -52,13 +54,11 @@ const AccountPage = () => {
         <div className="account--main--div">
           {loading ? (
             <LoadingSpinner />
-          ) : subscriptions.length > 0 ? (
+          ) : (
             <SubscriptionsList
               subscriptions={subscriptions}
               renewSubscription={updateSubscription}
             />
-          ) : (
-            <NoResults />
           )}
         </div>
       </div>
